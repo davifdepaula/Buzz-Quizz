@@ -30,7 +30,7 @@
     
   }
 
-  .main-box-basic-informations, .create-questions-box, .create-levels-box  {
+  .main-box-basic-informations, .create-questions-box, .create-levels-box, .Finished-quizz-box  {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -116,6 +116,25 @@ input::placeholder {
     margin-top: 85px;
 }
 
+.Finished-Quizz-Button {
+    width: 220px;
+    height: 44px;
+    background: #EC362D;
+    border-radius: 15px;
+    cursor: pointer;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFF5F4;
+
+}
+
 
 p {
     width: 368px;
@@ -129,5 +148,26 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.imgF4 {
+    position: relative;
+}
+
+.textF4 {
+    position: absolute;
+    
+}
+
+.ButtonGoBackHome {
+    width: 219.64px;
+    height: 44px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 25px;
+    color: #818181;
+    cursor: pointer;
+
 }
 
