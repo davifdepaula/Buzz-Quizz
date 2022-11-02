@@ -1,5 +1,5 @@
 @media (max-width: 614px) {
-    .beginning-question-box, .questions-box {
+    .beginning-question-box, .questions-box, .Ask-level-box {
         width: 100%;
     }
 }
