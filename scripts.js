@@ -11,6 +11,7 @@ let quizzList = []
 
 
 //objeto quizz vazio:
+<<<<<<< HEAD
 //o quiz abaixo foi copiado do exemplo no notion
 
 // {
@@ -82,6 +83,79 @@ let quizzList = []
 // 		}
 // 	]
 // }
+=======
+//formato do quiz que deve ser enviado ao servidor:
+let quizz = 
+{
+	id: 1,
+	title: "Título do quizz",
+	image: "https://http.cat/411.jpg",
+	questions: [
+		{
+			title: "Título da pergunta 1",
+			color: "#123456",
+			answers: [
+				{
+					text: "Texto da resposta 1",
+					image: "https://http.cat/411.jpg",
+					isCorrectAnswer: true
+				},
+				{
+					text: "Texto da resposta 2",
+					image: "https://http.cat/412.jpg",
+					isCorrectAnswer: false
+				}
+			]
+		},
+		{
+			title: "Título da pergunta 2",
+			color: "#123456",
+			answers: [
+				{
+					text: "Texto da resposta 1",
+					image: "https://http.cat/411.jpg",
+					isCorrectAnswer: true
+				},
+				{
+					text: "Texto da resposta 2",
+					image: "https://http.cat/412.jpg",
+					isCorrectAnswer: false
+				}
+			]
+		},
+		{
+			title: "Título da pergunta 3",
+			color: "#123456",
+			answers: [
+				{
+					text: "Texto da resposta 1",
+					image: "https://http.cat/411.jpg",
+					isCorrectAnswer: true
+				},
+				{
+					text: "Texto da resposta 2",
+					image: "https://http.cat/412.jpg",
+					isCorrectAnswer: false
+				}
+			]
+		}
+	],
+	levels: [
+		{
+			title: "Título do nível 1",
+			image: "https://http.cat/411.jpg",
+			text: "Descrição do nível 1",
+			minValue: 0
+		},
+		{
+			title: "Título do nível 2",
+			image: "https://http.cat/412.jpg",
+			text: "Descrição do nível 2",
+			minValue: 50
+		}
+	]
+}
+>>>>>>> refs/remotes/origin/master
 
 //funcões genéricas
 
@@ -91,6 +165,7 @@ function aboveOrEqualMin(value, minimal){
     if (value >= minimal){
         return true;
     } else {
+        console.log("valor menor que minimo");
         return false;
     }
 }
@@ -98,9 +173,10 @@ function aboveOrEqualMin(value, minimal){
 //verifica se o numero passado é menor ou igual ao máximo permitido
 //as entradas são 2 números e a saída é booleano
 function belowOrEqualMax(value, max){
-    if (value >= max){
+    if (value <= max){
         return true;
     } else {
+        console.log("valor maior que max");
         return false;
     }
 }
@@ -116,19 +192,23 @@ function checkQuantity(quantity, min){
 //checa se a imageUrl da imageUrlm funciona, peguei aqui:
 //https://wbruno.com.br/ajax/verificar-um-arquivo-de-imageUrlm-existe-javascript/
 //a entrada é uma string que contém a imageUrl da imageUrlm
-function validateImgimageUrl(imageUrl) {
+
+function validateImageUrl(imageUrl) {
 	let img = document.createElement('img');
 	img.src = imageUrl;
 
 	img.onload = function() {
-		console.log("A imageUrlm " + imageUrl + " existe");
-        return true
+		console.log("A imageUrl" + imageUrl + " existe");
 	}
 	img.onerror = function() {
-		console.log("A imageUrlm " + imageUrl + " NAO existe");
-        return false;
+		console.log("A imageUrl" + imageUrl + " NAO existe");
 	}
-}
+    if (img.src === imageUrl){
+        return true;
+    } else {
+        return false;
+    }
+} 
 
 //funcções genéricas
 
@@ -140,13 +220,14 @@ function validateQuizzTitleLength(title){
     if (aboveOrEqualMin(title.length, 20) && belowOrEqualMax(title.length, 65)){
         return true;
     } else {
+        console.log("titulo entre 20 e 65");
         return false;
     }
 }
 
 //para validar a imageUrl de uma imageUrlm chame esta função genérica que criei
 //esta função está escrita na seção de funções genéricas
-validateImgimageUrl("");
+//validateImageUrl("");
 
 //checa quantidade de questões
 function validateNumberOfQuestions(quantity){
@@ -164,17 +245,21 @@ function validateBasicInfo(title, imageUrl, numberOfQuestions, numberOfLevels){
     let count = 0;//conta as validações
     if (validateQuizzTitleLength(title) === true){
         count++;
+        console.log("title");
     }
-    if (validateImgimageUrl(imageUrl) === true){
+    if (validateImageUrl(imageUrl) === true){
         count++;
+        console.log("image");
     }
     if (validateNumberOfQuestions(numberOfQuestions) === true){
         count++;
+        console.log("questions");
     }
-    if (validateNumberOfLevels(numberOfLevels)){
+    if (validateNumberOfLevels(numberOfLevels) === true){
         count++;
+        console.log("levels");
     }
-
+    console.log(count);
     //retorna true se todas as informações foram validadas
     if (count === 4){
         return true;
@@ -191,16 +276,20 @@ function insertInfoIntoQuizz(title, imageUrl){
 function goToSecondScreen(){
     let isOk = false;
 
-    const title = document.getElementsById("title").value;
-    const imageUrl  = document.getElementsById("imageUrl").value;
-    const numberOfQuestions = document.getElementsById("numberOfQuestions").value;
-    const numberOfLevels = document.getElementsById("numberOfLevels").value;
+    const title = document.getElementById("title").value;
+    const imageUrl  = document.getElementById("imageUrl").value;
+    const numberOfQuestions = document.getElementById("numberOfQuestions").value;
+    const numberOfLevels = document.getElementById("numberOfLevels").value;
 
     isOk = validateBasicInfo(title, imageUrl, numberOfQuestions, numberOfLevels);
 
     if (isOk === true){
+        console.log("ok");
         const main_box_basic_informations = document.querySelector(".main-box-basic-informations");
         main_box_basic_informations.classList.add("hidden");
+
+        const create_questions_box = document.querySelector(".create-questions-box");
+        create_questions_box.classList.remove("hidden");
     } else {
         alert("Informações incorretas!");
     }
@@ -224,7 +313,7 @@ function answerNotEmpty(answer){
 
 //para validar a imageUrl de uma imageUrlm chame esta função genérica que criei
 //esta função está escrita na seção de funções genéricas
-validateImgimageUrl("");
+//validateImageUrl("");
 
 //checa se há uma resposta certa na lista de respostas
 //a entrada é uma lista de respostas, a saída é booleano
