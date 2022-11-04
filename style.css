@@ -13,6 +13,20 @@
     background: #EC362D;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
+    align-items: center 
+  }
+
+  .container-basic-information {
+    font-family: 'Roboto';
+   
+  }
+
+  header {
+    width: 100%;
+    height: 69px;
+    background: #EC362D;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 71px;
@@ -170,4 +184,62 @@ p {
     cursor: pointer;
 
 }
+
+
+/*display da lista de quizzes */
+
+main {
+  width: 100vw;
+  height: 100vh; 
+
+}
+
+.allQuizzContainer {
+  margin: 48px auto;
+  width: 80%;
+}
+
+.allQuizzContainer h1 {
+  color: #000000;
+  margin-bottom: 12px;
+  font-size: 20px;
+  font-family: "Roboto";
+  font-weight: 700;
+}
+
+.grid {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card {
+  width: 375px;
+  height: 181px;
+  margin-bottom: 20px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
+
+  
+}
+
+.quizzTitle {
+  color: white;
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  font-weight: 700;
+  font-size: 20px;
+  font-family: "Roboto";
+}
+
+
+/* fim do display da lista de quuizzes */
 

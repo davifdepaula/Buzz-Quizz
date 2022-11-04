@@ -1,5 +1,7 @@
 //Para obter todos os quizzes, faça uma requisição GET para a imageUrl
-const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
+//const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
+
+let quizzList = []
 
 //Para buscar um único quizz, faça uma requisição GET para a imageUrl
 /*"https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + "ID_DO_QUIZZ";*/
@@ -10,76 +12,76 @@ const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizz
 
 //objeto quizz vazio:
 //o quiz abaixo foi copiado do exemplo no notion
-let quizz = 
-{
-	id: 1,
-	title: "Título do quizz",
-	image: "https://http.cat/411.jpg",
-	questions: [
-		{
-			title: "Título da pergunta 1",
-			color: "#123456",
-			answers: [
-				{
-					text: "Texto da resposta 1",
-					image: "https://http.cat/411.jpg",
-					isCorrectAnswer: true
-				},
-				{
-					text: "Texto da resposta 2",
-					image: "https://http.cat/412.jpg",
-					isCorrectAnswer: false
-				}
-			]
-		},
-		{
-			title: "Título da pergunta 2",
-			color: "#123456",
-			answers: [
-				{
-					text: "Texto da resposta 1",
-					image: "https://http.cat/411.jpg",
-					isCorrectAnswer: true
-				},
-				{
-					text: "Texto da resposta 2",
-					image: "https://http.cat/412.jpg",
-					isCorrectAnswer: false
-				}
-			]
-		},
-		{
-			title: "Título da pergunta 3",
-			color: "#123456",
-			answers: [
-				{
-					text: "Texto da resposta 1",
-					image: "https://http.cat/411.jpg",
-					isCorrectAnswer: true
-				},
-				{
-					text: "Texto da resposta 2",
-					image: "https://http.cat/412.jpg",
-					isCorrectAnswer: false
-				}
-			]
-		}
-	],
-	levels: [
-		{
-			title: "Título do nível 1",
-			image: "https://http.cat/411.jpg",
-			text: "Descrição do nível 1",
-			minValue: 0
-		},
-		{
-			title: "Título do nível 2",
-			image: "https://http.cat/412.jpg",
-			text: "Descrição do nível 2",
-			minValue: 50
-		}
-	]
-}
+
+// {
+// 	id: 1,
+// 	title: "Título do quizz",
+// 	image: "https://http.cat/411.jpg",
+// 	questions: [
+// 		{
+// 			title: "Título da pergunta 1",
+// 			color: "#123456",
+// 			answers: [
+// 				{
+// 					text: "Texto da resposta 1",
+// 					image: "https://http.cat/411.jpg",
+// 					isCorrectAnswer: true
+// 				},
+// 				{
+// 					text: "Texto da resposta 2",
+// 					image: "https://http.cat/412.jpg",
+// 					isCorrectAnswer: false
+// 				}
+// 			]
+// 		},
+// 		{
+// 			title: "Título da pergunta 2",
+// 			color: "#123456",
+// 			answers: [
+// 				{
+// 					text: "Texto da resposta 1",
+// 					image: "https://http.cat/411.jpg",
+// 					isCorrectAnswer: true
+// 				},
+// 				{
+// 					text: "Texto da resposta 2",
+// 					image: "https://http.cat/412.jpg",
+// 					isCorrectAnswer: false
+// 				}
+// 			]
+// 		},
+// 		{
+// 			title: "Título da pergunta 3",
+// 			color: "#123456",
+// 			answers: [
+// 				{
+// 					text: "Texto da resposta 1",
+// 					image: "https://http.cat/411.jpg",
+// 					isCorrectAnswer: true
+// 				},
+// 				{
+// 					text: "Texto da resposta 2",
+// 					image: "https://http.cat/412.jpg",
+// 					isCorrectAnswer: false
+// 				}
+// 			]
+// 		}
+// 	],
+// 	levels: [
+// 		{
+// 			title: "Título do nível 1",
+// 			image: "https://http.cat/411.jpg",
+// 			text: "Descrição do nível 1",
+// 			minValue: 0
+// 		},
+// 		{
+// 			title: "Título do nível 2",
+// 			image: "https://http.cat/412.jpg",
+// 			text: "Descrição do nível 2",
+// 			minValue: 50
+// 		}
+// 	]
+// }
 
 //funcões genéricas
 
@@ -265,7 +267,34 @@ function checkWrongAnswersQuantity(question){
     return (aboveOrEqualMin(quantity, 1));
 }
 
-function validateQuizzQuestions(question, imageUrl)
+//function validateQuizzQuestions(question, imageUrl)
 
 //Criação do Quizz: Perguntas do quizz
 
+
+
+
+//lista dos Quizzes
+
+
+function showQuizz(quizz){
+    const content = document.querySelector(".grid")
+    content.innerHTML += `<div class= "quizz"> 
+    <div class = "card">
+        <img src=${quizz.image} alt =${quizz.title}/> 
+        <span class = "quizzTitle" > ${quizz.title} </span> 
+    </div> 
+    </div>` 
+}
+
+
+ function getQuizes() {
+    const url = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes"
+    axios.get(url)
+        .then((response) => {
+            response.data.map((quizz) => showQuizz(quizz))
+        })
+        .catch(error => console.log("erro na requisição get: ", error))
+}
+
+getQuizes()
