@@ -194,18 +194,49 @@ main {
 
 }
 
-.allQuizzContainer {
+main h1 {
+  color: #000000;
+  font-weight: 700;
+  font-size: 20px;
+  font-family: "Roboto";
+  margin-bottom: 12px;
+}
+
+.creatQuizz{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 48px auto;
+  width: 80%;
+  height: 181px;
+  border: 1px dashed #D4D4D4;
+  border-radius: 5px;
+}
+
+.userText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  margin-bottom: 30px;
+}
+
+.btnCreatQuizz{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed red;
+  border-radius: 50px;
+  width: 151px;
+  height: 40px;
+}
+
+.allQuizzContainer, .userQuizzContainer {
   margin: 48px auto;
   width: 80%;
 }
 
-.allQuizzContainer h1 {
-  color: #000000;
-  margin-bottom: 12px;
-  font-size: 20px;
-  font-family: "Roboto";
-  font-weight: 700;
-}
 
 .grid {
   align-items: center;

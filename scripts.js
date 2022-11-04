@@ -11,7 +11,7 @@ let quizzList = []
 
 
 //objeto quizz vazio:
-<<<<<<< HEAD
+// HEAD
 //o quiz abaixo foi copiado do exemplo no notion
 
 // {
@@ -83,7 +83,7 @@ let quizzList = []
 // 		}
 // 	]
 // }
-=======
+
 //formato do quiz que deve ser enviado ao servidor:
 let quizz = 
 {
@@ -155,7 +155,7 @@ let quizz =
 		}
 	]
 }
->>>>>>> refs/remotes/origin/master
+//refs/remotes/origin/master
 
 //funcões genéricas
 
