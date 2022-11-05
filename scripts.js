@@ -1,7 +1,7 @@
 //Para obter todos os quizzes, faça uma requisição GET para a imageUrl
 //const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
-let quizzList = []
+let quizzList = [], idUserPost = []
 
 //Para buscar um único quizz, faça uma requisição GET para a imageUrl
 /*"https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + "ID_DO_QUIZZ";*/
@@ -21,6 +21,25 @@ let quizzList = []
 
 //verifica se o numero passado é maior ou igual ao minimo permitido
 //as entradas são 2 números e a saída é booleano
+
+function checkLocalStorage(){
+    let arr = localStorage.getItem("idUserPost")
+    if (arr === null){
+        const content = document.querySelector(".creatQuizz")
+        content.classList.remove("hidden")
+    }
+
+    else{
+        const content = document.querySelector(".userQuizzContainer")
+        content.classList.remove("hidden")
+        arr = JSON.parse(arr)   
+        idUserPost = [...arr] 
+    }
+}
+
+checkLocalStorage()
+
+
 function aboveOrEqualMin(value, minimal){
     if (value >= minimal){
         return true;
@@ -225,11 +244,22 @@ function checkWrongAnswersQuantity(question){
 
 //lista dos Quizzes
 
-
 function showQuizz(quizz){
+    if (idUserPost.includes(quizz.id)){
+        const content = document.querySelector(".grid")
+        content.innerHTML += `<div class= "quizz" onclick = "showSecondScreen()"> 
+        <div class = "card">
+            <div class="front"></div>
+            <img src=${quizz.image} alt =${quizz.title}/> 
+            <span class = "quizzTitle" > ${quizz.title} </span> 
+        </div> 
+        </div>`
+        return 
+    }
     const content = document.querySelector(".grid")
-    content.innerHTML += `<div class= "quizz"> 
+    content.innerHTML += `<div class= "quizz" onclick = "showSecondScreen()"> 
     <div class = "card">
+        <div class="front"></div>
         <img src=${quizz.image} alt =${quizz.title}/> 
         <span class = "quizzTitle" > ${quizz.title} </span> 
     </div> 
@@ -247,3 +277,19 @@ function showQuizz(quizz){
 }
 
 getQuizes()
+
+
+function showSecondScreen(){
+    const content = document.querySelector("main")
+    const secondeScreen = document.querySelector(".create-questions-box")
+    content.classList.add("hidden")
+    secondeScreen.classList.remove("hidden")
+}
+
+function showthirdScreen(){
+    const content = document.querySelector("main")
+    const thirdScreen = document.querySelector(".create-levels-box")
+    content.classList.add("hidden")
+    thirdScreen.classList.remove("hidden")
+}
+
