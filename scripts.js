@@ -1,11 +1,8 @@
 //Para obter todos os quizzes, faça uma requisição GET para a imageUrl
 //const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
-<<<<<<< HEAD
 let quizzList = [], idUserPost = []
 
-=======
->>>>>>> refs/remotes/origin/master
 //Para buscar um único quizz, faça uma requisição GET para a imageUrl
 /*"https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + "ID_DO_QUIZZ";*/
 
@@ -457,7 +454,6 @@ function showQuizz(quizz){
         .catch(error => console.log("erro na requisição get: ", error))
 }
 
-<<<<<<< HEAD
 getQuizes()
 
 
@@ -475,7 +471,29 @@ function showthirdScreen(){
     thirdScreen.classList.remove("hidden")
 }
 
-=======
 hideScreens();
 getQuizes();
->>>>>>> refs/remotes/origin/master
+
+// Fazer o efeito de aparecer e esconder a caixa com as perguntas/niveis
+function CollapseBox() {
+
+    const element1 = document.getElementsByClassName("questions-box");
+  
+    for (let i = 0; i < element1.length; i++) {
+      element1[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+      });
+    }
+
+
+
+    const element2 = document.getElementsByClassName("Ask-level-box");
+  
+    for (let i = 0; i < element2.length; i++) {
+      element2[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+      });
+    }
+  }
+  
+  CollapseBox();
