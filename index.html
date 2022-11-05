@@ -19,7 +19,7 @@
             <h1>BuzzQuizz</h1>
         </header>
 
-        <main>
+        <main class="main">
 
             <div class="creatQuizz">
                 <div class="userText">
@@ -31,7 +31,7 @@
                         quizz ainda :(
                     </div> 
                 </div>
-                <div class="btnCreatQuizz">
+                <div class="btnCreatQuizz" onclick="createFirstScreen()">
                     Criar Quizz
                 </div>
             </div>
@@ -50,7 +50,7 @@
         </main>
 
         <!--First Screen -->
-        <div class=" main-box-basic-informations">
+        <div class="hidden main-box-basic-informations">
             <h2>Comece pelo começo</h2>
             <div class="beginning-question-box">
                 <input placeholder="Título do seu quizz" type="text" id="title">
@@ -64,62 +64,6 @@
 
         <!--Second Screen -->
         <div class="hidden create-questions-box">
-            <h2>Crie suas perguntas</h2>
-            
-            <div class="questions-box">
-                <h3>Pergunta 1</h3>
-                <input placeholder="Texto da pergunta" type="text">
-                <input placeholder="Cor de fundo da pergunta"type="text">
-                <h3>Resposta correta</h3>
-                <input placeholder="Resposta correta" type="text">
-                <input placeholder="URL da imagem"type="text">
-                <h3>Respostas incorretas</h3>
-                <input placeholder="Resposta incorreta 1" type="text">
-                <input placeholder="URL da imagem 1"type="text">
-                <div class="space"></div>
-                <input placeholder="Resposta incorreta 2" type="text">
-                <input placeholder="URL da imagem 2"type="text">
-                <div class="space"></div>
-                <input placeholder="Resposta incorreta 3" type="text">
-                <input placeholder="URL da imagem 3"type="text">
-            </div>
-            <div class="space"></div>
-            <div class="questions-box">
-                <h3>Pergunta 2</h3>
-                <input placeholder="Texto da pergunta" type="text">
-                <input placeholder="Cor de fundo da pergunta"type="text">
-                <h3>Resposta correta</h3>
-                <input placeholder="Resposta correta" type="text">
-                <input placeholder="URL da imagem"type="text">
-                <h3>Respostas incorretas</h3>
-                <input placeholder="Resposta incorreta 1" type="text">
-                <input placeholder="URL da imagem 1"type="text">
-                <div class="space"></div>
-                <input placeholder="Resposta incorreta 2" type="text">
-                <input placeholder="URL da imagem 2"type="text">
-                <div class="space"></div>
-                <input placeholder="Resposta incorreta 3" type="text">
-                <input placeholder="URL da imagem 3"type="text">
-            </div>
-            <div class="space"></div>
-            <div class="questions-box">
-                <h3>Pergunta 3</h3>
-                <input placeholder="Texto da pergunta" type="text">
-                <input placeholder="Cor de fundo da pergunta"type="text">
-                <h3>Resposta correta</h3>
-                <input placeholder="Resposta correta" type="text">
-                <input placeholder="URL da imagem"type="text">
-                <h3>Respostas incorretas</h3>
-                <input placeholder="Resposta incorreta 1" type="text">
-                <input placeholder="URL da imagem 1"type="text">
-                <div class="space"></div>
-                <input placeholder="Resposta incorreta 2" type="text">
-                <input placeholder="URL da imagem 2"type="text">
-                <div class="space"></div>
-                <input placeholder="Resposta incorreta 3" type="text">
-                <input placeholder="URL da imagem 3"type="text">
-            </div>
-            <div onclick="" class="button"><p>Prosseguir pra criar níveis</p></div>
         </div>
         <!--Second Screen -->
 
@@ -154,11 +98,7 @@
         <!--Third Screen -->
         
         <!--Fourth Screen -->
-<<<<<<< HEAD
         <div class="Finished-quizz-box hidden">
-=======
-        <div class="hidden Finished-quizz-box">
->>>>>>> refs/remotes/origin/master
             <h2>Seu quizz está pronto!</h2>
             <div class="imgF4">
             <img class="Finished-Quizz-Img" src="./img/Rectangle 34.png" alt="">

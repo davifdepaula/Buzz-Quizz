@@ -1,23 +1,66 @@
 //Para obter todos os quizzes, faça uma requisição GET para a imageUrl
 //const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
-let quizzList = []
-
 //Para buscar um único quizz, faça uma requisição GET para a imageUrl
 /*"https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + "ID_DO_QUIZZ";*/
 
 //Para criar um quizz, envie uma requisição POST para a imageUrl
 //https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes
 
+let quizz = {
+    id: 1,
+ 	title: "",
+ 	image: "",
+ 	questions: []};
 
-//objeto quizz vazio:
-// HEAD
+let question = {
+    title: "",
+ 	color: "",
+ 	answers: 
+        [
+ 		    
+        ]
+    };
 
-//formato do quiz que deve ser enviado ao servidor:
+//modelos de respostas:
+/*{
+			    text: "",
+    			image: "",
+	    		isCorrectAnswer: true
+		    },
+		    {
+ 		    	text: "",
+ 			    image: "",
+ 			    isCorrectAnswer: false
+}*/
 
-//refs/remotes/origin/master
 
-//funcões genéricas
+
+let title;
+let imageUrl;
+let numberOfQuestions;
+let numberOfLevels;
+
+//início funcões genéricas
+
+function resetQuizz(){
+    quizz.title = "";
+ 	quizz.image = "";
+ 	quizz.questions = [];
+}
+
+function resetQuestion(){
+    question.title = "";
+    question.color = "";
+    question.answers = [];
+}
+
+function resetGlobalVariables(){
+    title = "";
+    imageUrl = "";
+    numberOfQuestions = 0;
+    numberOfLevels = 0;
+}
 
 //verifica se o numero passado é maior ou igual ao minimo permitido
 //as entradas são 2 números e a saída é booleano
@@ -25,7 +68,6 @@ function aboveOrEqualMin(value, minimal){
     if (value >= minimal){
         return true;
     } else {
-        console.log("valor menor que minimo");
         return false;
     }
 }
@@ -36,7 +78,6 @@ function belowOrEqualMax(value, max){
     if (value <= max){
         return true;
     } else {
-        console.log("valor maior que max");
         return false;
     }
 }
@@ -58,7 +99,6 @@ function validateImageUrl(imageUrl) {
 	img.src = imageUrl;
 
 	img.onload = function() {
-		console.log("A imageUrl" + imageUrl + " existe");
 	}
 	img.onerror = function() {
 		console.log("A imageUrl" + imageUrl + " NAO existe");
@@ -68,11 +108,39 @@ function validateImageUrl(imageUrl) {
     } else {
         return false;
     }
-} 
+}
 
-//funcções genéricas
+function validateMultImageUrl(imageUrls){
+    for (let i = 0; i < imageUrls.length; i++){
+        if (validateImageUrl(imageUrls[i]) === false){
+            return false;
+        }
+    }
+    return true;
+}
 
-//Criação do Quizz: Informações básicas do quizz
+function hideScreens(){
+    const createQuestionsBox = document.querySelector(".main-box-basic-informations");
+    createQuestionsBox.classList.add("hidden");
+
+    let secondScreen = document.querySelector(".create-questions-box");
+    secondScreen.classList.add("hidden");    
+}
+
+//fim funcções genéricas
+
+//inicio Criação do Quizz: Informações básicas do quizz
+
+
+
+function createFirstScreen(){
+    const main = document.querySelector("main");
+    main.classList.add("hidden");
+
+
+    const createQuestionsBox = document.querySelector(".main-box-basic-informations");
+    createQuestionsBox.classList.remove("hidden");
+}
 
 //checa o comprimento do titulo
 //title é uma string, o retorno é booleano
@@ -105,21 +173,16 @@ function validateBasicInfo(title, imageUrl, numberOfQuestions, numberOfLevels){
     let count = 0;//conta as validações
     if (validateQuizzTitleLength(title) === true){
         count++;
-        console.log("title");
     }
     if (validateImageUrl(imageUrl) === true){
         count++;
-        console.log("image");
     }
     if (validateNumberOfQuestions(numberOfQuestions) === true){
         count++;
-        console.log("questions");
     }
     if (validateNumberOfLevels(numberOfLevels) === true){
         count++;
-        console.log("levels");
     }
-    console.log(count);
     //retorna true se todas as informações foram validadas
     if (count === 4){
         return true;
@@ -136,39 +199,116 @@ function insertInfoIntoQuizz(title, imageUrl){
 function goToSecondScreen(){
     let isOk = false;
 
-    const title = document.getElementById("title").value;
-    const imageUrl  = document.getElementById("imageUrl").value;
-    const numberOfQuestions = document.getElementById("numberOfQuestions").value;
-    const numberOfLevels = document.getElementById("numberOfLevels").value;
+    title = document.getElementById("title").value;
+    imageUrl  = document.getElementById("imageUrl").value;
+    numberOfQuestions = document.getElementById("numberOfQuestions").value;
+    numberOfLevels = document.getElementById("numberOfLevels").value;
 
     isOk = validateBasicInfo(title, imageUrl, numberOfQuestions, numberOfLevels);
 
     if (isOk === true){
-        console.log("ok");
-        const main_box_basic_informations = document.querySelector(".main-box-basic-informations");
-        main_box_basic_informations.classList.add("hidden");
-
-        const create_questions_box = document.querySelector(".create-questions-box");
-        create_questions_box.classList.remove("hidden");
+        insertInfoIntoQuizz(title, imageUrl);
+        console.log(quizz);
+        createSecondScreen();
     } else {
         alert("Informações incorretas!");
     }
 }
 
-//Criação do Quizz: Informações básicas do quizz
+//fim Criação do Quizz: Informações básicas do quizz
 
-//Criação do Quizz: Perguntas do quizz
+//inicio Criação do Quizz: Perguntas do quizz
+
+function createQuestions_box(){
+    let questions_box = ``;
+    let numeroDaPergunta; 
+    for (let i = 0; i<numberOfQuestions; i++){
+        numeroDaPergunta = i + 1;
+        questions_box += 
+        `
+            <div class="questions-box">
+                <h3>Pergunta ${numeroDaPergunta}</h3>
+                <input placeholder="Texto da pergunta" type="text" class="question-text">
+                <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
+                <h3>Resposta correta</h3>
+                <input placeholder="Resposta correta " type="text" class="answer-txt">
+                <input placeholder="URL da imagem"type="text" class="img-url">
+                <h3>Respostas incorretas</h3>
+                <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
+                <input placeholder="URL da imagem 1"type="text" class="img-url">
+                <div class="space"></div>
+                <input placeholder="Resposta incorreta 2" type="text" class="answer-txt">
+                <input placeholder="URL da imagem 2"type="text" class="img-url">
+                <div class="space"></div>
+                <input placeholder="Resposta incorreta 3" type="text" class="answer-txt">
+                <input placeholder="URL da imagem 3"type="text" class="img-url">
+            </div>
+            <div class="space"></div>
+        `;
+    }
+    return questions_box;
+}
+
+function createSecondScreen(){
+    let firstScreen = document.querySelector(".main-box-basic-informations");
+    firstScreen.classList.add("hidden");
+
+    let secondScreen = document.querySelector(".create-questions-box");
+    secondScreen.classList.remove("hidden");
+    secondScreen.innerHTML = 
+    `
+    <h2>Crie suas perguntas</h2>
+    ${createQuestions_box()}
+    <div onclick="goToThirdScreen()" class="button"><p>Prosseguir pra criar níveis</p></div>
+    `
+}
 
 //valida tamanho da questão
-//entada é uma string e saída é um booleano
+//entrada é uma string e saída é um booleano
 function validateQuestionLength(question){
+    console.log(question);
     return aboveOrEqualMin(question.length, 20);
+}
+
+function validateAllQuestionsLength(questions){
+    for (let i = 0; i<questions.length; i++){
+        if (validateQuestionLength(questions[i] === false)){
+            return false;
+        }
+    }
+    return true;
+}
+
+function validateBackgroundColor(str){
+    if (str[0] === "#" && CSS.supports('color', str)){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validateMultBackgoundColor(colors){
+    for(let i = 0; i<colors.length; i++){
+        if (validateBackgroundColor(colors[i]) === false){
+            return false;
+        }
+    }
+    return false;
 }
 
 //checa se a resposta não está vazia
 //entada é uma string e saída é um booleano
 function answerNotEmpty(answer){
     return aboveOrEqualMin(answer.length, 0);
+}
+
+function AllAnswersNotEmpty(answers){
+    for(let i = 0; i<answers.length; i++){
+        if (answerNotEmpty === false){
+            return false;
+        }
+    }
+    return true
 }
 
 //para validar a imageUrl de uma imageUrlm chame esta função genérica que criei
@@ -186,28 +326,6 @@ function isThereARightAnswer_aux(answers){
     return false
 }
 
-//checa se há uma resposta certa no objeto pergunta
-//entrada é um objeto pergunta, saída é booleano
-function isThereARightAnswer(question){
-    if (isThereARightAnswer_aux(question.answers) === true){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-//conta quantidade de respostas erradas na lista de resposta
-//a entrada é uma lista de respostas, a saída é um inteiro
-function howManyWrongAnswers(answers){
-    let count = 0;
-    for(let i = 0; i < answers.length; i++){
-        if (answers[i].isCorrectAnswer === false){
-            count++;
-        }
-    }
-    return count;
-}
-
 //conta quantidade de respostas erradas na questão
 //entrada é um objeto questão, saída é um booleano
 //retorna falso se quantity for menor que 1
@@ -216,9 +334,67 @@ function checkWrongAnswersQuantity(question){
     return (aboveOrEqualMin(quantity, 1));
 }
 
-//function validateQuizzQuestions(question, imageUrl)
+function validateQuizzQuestions(){
+    let questions_text = document.querySelectorAll(".question-text").values;
+    let valid_questions_text = validateAllQuestionsLength(questions_text);
+    let question_colors = document.querySelectorAll(".question-color").values;
+    let valid_question_colors = validateMultBackgoundColor(question_colors);
+    let answers_text = document.querySelectorAll(".answer-text").values;
+    let valid_answers_text = validateAllQuestionsLength(answers_text);
+    let img_urls = document.querySelectorAll(".img-url").values;
+    let valid_img_urls = validateMultImageUrl(img_urls);
 
-//Criação do Quizz: Perguntas do quizz
+    let isOkQuestion = valid_answers_text && valid_question_colors;
+    let isOkAnswers = valid_answers_text && valid_img_urls;
+    let isOk = isOkQuestion && isOkAnswers;
+    if (isOk === true){
+        dataToQuizz(questions_text, question_colors, answers_text, img_urls);
+    }
+    return isOk; 
+}
+
+function dataToQuizz(questions, colors, answers, urls){
+    //let questions = [];
+    for (let i = 0; i<questions.length; i++){
+        question.title = questions[i];
+        question.color = colors[i];
+        for (let j = i; i<answers.length; j++){
+            if (i === j){
+                question.answers.push = {
+                    text: answers[i],
+                    image: urls[i],
+                    isCorrectAnswer: true
+                };
+            } else {
+                question.answers.push = {
+                    text: answers[i],
+                    image: urls[i],
+                    isCorrectAnswer: false
+                };
+            }
+        }
+        quizz.questions.push(question);
+        resetQuestion;
+    }
+}
+
+function goToThirdScreen(){
+    let isOk = validateQuizzQuestions();
+    console.log(quizz);
+    if (isOk === true){
+        let secondScreen = document.querySelector(".create-questions-box");
+        secondScreen.classList.add("hidden");
+
+        let thirdScreen = document.querySelector(".create-levels-box");
+        secondScreen.classList.remove("hidden");
+    } else {
+        alert("Algo está errado!");
+    }
+}
+
+//fim Criação do Quizz: Perguntas do quizz
+
+//
 
 
 
@@ -246,4 +422,5 @@ function showQuizz(quizz){
         .catch(error => console.log("erro na requisição get: ", error))
 }
 
-getQuizes()
+hideScreens();
+getQuizes();
