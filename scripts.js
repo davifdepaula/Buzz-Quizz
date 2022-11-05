@@ -229,7 +229,6 @@ function goToSecondScreen(){
 
     if (isOk === true){
         insertInfoIntoQuizz(title, imageUrl);
-        console.log(quizz);
         createSecondScreen();
     } else {
         alert("Informações incorretas!");
@@ -249,22 +248,23 @@ function createQuestions_box(){
         `
             <div class="questions-box">
                 <h3>Pergunta ${numeroDaPergunta}</h3>
-                <input placeholder="Texto da pergunta" type="text" class="question-text">
-                <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
-                <h3>Resposta correta</h3>
-                <input placeholder="Resposta correta " type="text" class="answer-txt">
-                <input placeholder="URL da imagem"type="text" class="img-url">
-                <h3>Respostas incorretas</h3>
-                <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
-                <input placeholder="URL da imagem 1"type="text" class="img-url">
-                <div class="space"></div>
-                <input placeholder="Resposta incorreta 2" type="text" class="answer-txt">
-                <input placeholder="URL da imagem 2"type="text" class="img-url">
-                <div class="space"></div>
-                <input placeholder="Resposta incorreta 3" type="text" class="answer-txt">
-                <input placeholder="URL da imagem 3"type="text" class="img-url">
+                <div class="content" onclick="CollapseBox()">
+                    <input placeholder="Texto da pergunta" type="text" class="question-text">
+                    <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
+                    <h4>Resposta correta</h4>
+                    <input placeholder="Resposta correta" type="text" class="answer-txt">
+                    <input placeholder="URL da imagem"type="text" class="img-url">
+                    <h4>Respostas incorretas</h4>
+                    <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
+                    <input placeholder="URL da imagem 1"type="text" class="img-url">
+                    <div class="space"></div>
+                    <input placeholder="Resposta incorreta 2" type="text" class="answer-txt">
+                    <input placeholder="URL da imagem 2"type="text" class="img-url">
+                    <div class="space"></div>
+                    <input placeholder="Resposta incorreta 3" type="text" class="answer-txt">
+                    <input placeholder="URL da imagem 3"type="text" class="img-url">
+                </div>
             </div>
-            <div class="space"></div>
         `;
     }
     return questions_box;
@@ -281,7 +281,8 @@ function createSecondScreen(){
     <h2>Crie suas perguntas</h2>
     ${createQuestions_box()}
     <div onclick="goToThirdScreen()" class="button"><p>Prosseguir pra criar níveis</p></div>
-    `
+    `;
+    CollapseBox();
 }
 
 //valida tamanho da questão
@@ -356,13 +357,14 @@ function checkWrongAnswersQuantity(question){
 }
 
 function validateQuizzQuestions(){
-    let questions_text = document.querySelectorAll(".question-text").values;
+    let questions_text = document.querySelectorAll(".question-text").value;
+    console.log(questions_text);
     let valid_questions_text = validateAllQuestionsLength(questions_text);
-    let question_colors = document.querySelectorAll(".question-color").values;
+    let question_colors = document.querySelectorAll(".question-color").value;
     let valid_question_colors = validateMultBackgoundColor(question_colors);
-    let answers_text = document.querySelectorAll(".answer-text").values;
+    let answers_text = document.querySelectorAll(".answer-text").value;
     let valid_answers_text = validateAllQuestionsLength(answers_text);
-    let img_urls = document.querySelectorAll(".img-url").values;
+    let img_urls = document.querySelectorAll(".img-url").value;
     let valid_img_urls = validateMultImageUrl(img_urls);
 
     let isOkQuestion = valid_answers_text && valid_question_colors;
