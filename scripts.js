@@ -1,11 +1,8 @@
 //Para obter todos os quizzes, faça uma requisição GET para a imageUrl
 //const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
-<<<<<<< HEAD
 let quizzList = [], idUserPost = []
 
-=======
->>>>>>> refs/remotes/origin/master
 //Para buscar um único quizz, faça uma requisição GET para a imageUrl
 /*"https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + "ID_DO_QUIZZ";*/
 
@@ -428,23 +425,25 @@ function goToThirdScreen(){
 function showQuizz(quizz){
     if (idUserPost.includes(quizz.id)){
         const content = document.querySelector(".grid")
-        content.innerHTML += `<div class= "quizz" onclick = "showSecondScreen()"> 
+        content.innerHTML += `<div class= "quizz" onclick = "showthirdScreen(this)"> 
         <div class = "card">
             <div class="front"></div>
-            <img src=${quizz.image} alt =${quizz.title}/> 
+            <img src=${quizz.image} alt =${quizz.id}/> 
             <span class = "quizzTitle" > ${quizz.title} </span> 
         </div> 
         </div>`
-        return 
+        return
+
     }
     const content = document.querySelector(".grid")
-    content.innerHTML += `<div class= "quizz" onclick = "showSecondScreen()"> 
-    <div class = "card">
+    content.innerHTML += `<div class= "quizz"> 
+    <div class = "card" onclick = "showthirdScreen(this)">
         <div class="front"></div>
-        <img src=${quizz.image} alt =${quizz.title}/> 
+        <img src=${quizz.image} alt =${quizz.id}/> 
         <span class = "quizzTitle" > ${quizz.title} </span> 
     </div> 
-    </div>` 
+    </div>`
+    
 }
 
 
@@ -457,25 +456,23 @@ function showQuizz(quizz){
         .catch(error => console.log("erro na requisição get: ", error))
 }
 
-<<<<<<< HEAD
 getQuizes()
 
 
-function showSecondScreen(){
+function showFirstScreen(){
     const content = document.querySelector("main")
-    const secondeScreen = document.querySelector(".create-questions-box")
+    const firstScreen = document.querySelector(".main-box-basic-informations")
     content.classList.add("hidden")
-    secondeScreen.classList.remove("hidden")
+    firstScreen.classList.remove("hidden")
 }
 
-function showthirdScreen(){
+function showthirdScreen(element){
     const content = document.querySelector("main")
-    const thirdScreen = document.querySelector(".create-levels-box")
     content.classList.add("hidden")
-    thirdScreen.classList.remove("hidden")
+    const id = element.getElementsByTagName('img')[0].alt
+    const url = `https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`
+    axios.get(url)
+        .then((response) => console.log(response))
+        .catch((e) => console.log(e))
 }
 
-=======
-hideScreens();
-getQuizes();
->>>>>>> refs/remotes/origin/master
