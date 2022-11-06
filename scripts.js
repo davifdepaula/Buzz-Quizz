@@ -508,7 +508,7 @@ function CollapseBox() {
   
     for (let i = 0; i < element2.length; i++) {
       element2[i].addEventListener("click", function () {
-        this.classList.toggle("active");
+        this.classList.add("active");
       });
     }
   }
