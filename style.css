@@ -126,20 +126,27 @@
   .TitleQuizzBox p,.TitleFinishQuizzBox p {
     width: 100%;
   }
-  .QuizzAnswers, .FinishAnswers {
+  .QuizzAnswers {
     display: flex;
     gap: 24px;
     flex-wrap: wrap;
     margin-top: 19px;
     
   }
+
+  .FinishAnswers {
+    display: flex;
+    gap: 24px;
+    margin-top: 19px;
+  }
+  
   .QuizzAnswers img {
     width: 331px;
     height: 175.2px;
     cursor: pointer;
   }
 
-  .FinishAnswers img {
+  .FinishImg {
     width: 364px;
     height: 273px;
   }
@@ -345,7 +352,7 @@ p {
   height: 240px;
 }
 
-.imgF4 {
+.imgF4 img{
     position: relative;
 }
 
