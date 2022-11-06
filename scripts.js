@@ -24,6 +24,16 @@ let question = {
         ]
     };
 
+let answer = {
+    text : "",
+    image : "",
+    isCorrectAnswer: undefined
+}
+
+let answer_texts = [];
+let image_texts = [];
+let isCorrectAnswer = [true, false, false, false];
+
 //modelos de respostas:
 /*{
 			    text: "",
@@ -62,6 +72,15 @@ function resetGlobalVariables(){
     imageUrl = "";
     numberOfQuestions = 0;
     numberOfLevels = 0;
+    answer_texts = [];
+    image_texts = [];
+    isCorrectAnswer = [true, false, false, false];
+    answer = {
+        text : "",
+        image : "",
+        isCorrectAnswer: undefined
+    }
+    resetQuestion();
 }
 
 //verifica se o numero passado é maior ou igual ao minimo permitido
@@ -133,8 +152,10 @@ function validateImageUrl(imageUrl) {
 
 function validateMultImageUrl(imageUrls){
     for (let i = 0; i < imageUrls.length; i++){
-        if (validateImageUrl(imageUrls[i]) === false){
+        if (validateImageUrl(imageUrls[i].value) === false){
             return false;
+        } else {
+            image_texts.push(imageUrls[i]);
         }
     }
     return true;
@@ -248,11 +269,19 @@ function createQuestions_box(){
         `
             <div class="questions-box">
                 <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
+<<<<<<< HEAD
                 <div class="content">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
                     <input placeholder="Resposta correta " type="text" class="answer-txt">
+=======
+                <div class="content content-question">
+                    <input placeholder="Texto da pergunta" type="text" class="question-text">
+                    <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
+                    <h4>Resposta correta</h4>
+                    <input placeholder="Resposta correta" type="text" class="answer-txt">
+>>>>>>> refs/remotes/origin/master
                     <input placeholder="URL da imagem"type="text" class="img-url">
                     <h4>Respostas incorretas</h4>
                     <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
@@ -294,14 +323,6 @@ function validateQuestionLength(question){
     return aboveOrEqualMin(question.length, 20);
 }
 
-function validateAllQuestionsLength(questions){
-    for (let i = 0; i<questions.length; i++){
-        if (validateQuestionLength(questions[i] === false)){
-            return false;
-        }
-    }
-    return true;
-}
 
 function validateBackgroundColor(str){
     if (str[0] === "#" && CSS.supports('color', str)){
@@ -311,13 +332,13 @@ function validateBackgroundColor(str){
     }
 }
 
-function validateMultBackgoundColor(colors){
-    for(let i = 0; i<colors.length; i++){
+function validateAllBackgroundColor(colors){
+    for (let i = 0; i < colors.length; i++){
         if (validateBackgroundColor(colors[i]) === false){
             return false;
         }
     }
-    return false;
+    return true;
 }
 
 //checa se a resposta não está vazia
@@ -328,8 +349,11 @@ function answerNotEmpty(answer){
 
 function AllAnswersNotEmpty(answers){
     for(let i = 0; i<answers.length; i++){
-        if (answerNotEmpty === false){
+        console.log(answerNotEmpty(answers[i].value));
+        if (answerNotEmpty(answers[i].value) === false){
             return false;
+        } else {
+            answer_texts.push(answers[i]);
         }
     }
     return true
@@ -347,7 +371,7 @@ function isThereARightAnswer_aux(answers){
             return true;
         }
     } 
-    return false
+    return false;
 }
 
 //conta quantidade de respostas erradas na questão
@@ -358,49 +382,71 @@ function checkWrongAnswersQuantity(question){
     return (aboveOrEqualMin(quantity, 1));
 }
 
-function validateQuizzQuestions(){
-    let questions_text = document.querySelectorAll(".question-text").value;
-    console.log(questions_text);
-    let valid_questions_text = validateAllQuestionsLength(questions_text);
-    let question_colors = document.querySelectorAll(".question-color").value;
-    let valid_question_colors = validateMultBackgoundColor(question_colors);
-    let answers_text = document.querySelectorAll(".answer-text").value;
-    let valid_answers_text = validateAllQuestionsLength(answers_text);
-    let img_urls = document.querySelectorAll(".img-url").value;
-    let valid_img_urls = validateMultImageUrl(img_urls);
-
-    let isOkQuestion = valid_answers_text && valid_question_colors;
-    let isOkAnswers = valid_answers_text && valid_img_urls;
-    let isOk = isOkQuestion && isOkAnswers;
-    if (isOk === true){
-        dataToQuizz(questions_text, question_colors, answers_text, img_urls);
+function validateContent(content){
+    let content_question = content.querySelector(".question-text").value;
+    if (validateQuestionLength(content_question) === false){
+        return false
+    } else {
+        question.title = content_question;
     }
+    
+    let content_color = content.querySelector(".question-color").value;
+    if (validateBackgroundColor(content_color) === false){
+        return false;
+    } else {
+        question.color = content.color;
+    }
+
+    let answers_text = content.querySelectorAll(".answer-txt");
+    if (AllAnswersNotEmpty(answers_text) === false){
+        return false;
+    }
+
+    let img_url = content.querySelectorAll(".img-url");
+    if (validateMultImageUrl(img_url) === false){
+        return false;
+    }
+    return true;
+}
+
+function validateContents(contents){
+    for (let i = 0; i<contents.length; i++){
+        if (validateContent(contents[i]) === false){
+            return false;
+        }
+    }
+    return true;
+}
+
+function validateQuizzQuestions(){
+    let isOk = false;
+    let contents = document.querySelectorAll(".content-question");
+    isOk = validateContents(contents);
+    if (isOk){
+        console.log("info validada!");
+        questionsToQuizz(answersToQuestion());
+    } 
+    
     return isOk; 
 }
 
-function dataToQuizz(questions, colors, answers, urls){
-    //let questions = [];
-    for (let i = 0; i<questions.length; i++){
-        question.title = questions[i];
-        question.color = colors[i];
-        for (let j = i; i<answers.length; j++){
-            if (i === j){
-                question.answers.push = {
-                    text: answers[i],
-                    image: urls[i],
-                    isCorrectAnswer: true
-                };
-            } else {
-                question.answers.push = {
-                    text: answers[i],
-                    image: urls[i],
-                    isCorrectAnswer: false
-                };
-            }
-        }
-        quizz.questions.push(question);
-        resetQuestion;
+function questionsToQuizz(questionsLst){
+    for (let i = 0; i<questionsLst.length; i++){
+        quizz.questions.push(questionsLst[i]);
     }
+}
+
+function answersToQuestion(){
+    let lstQuestions = [];
+    for (let i = 0; i<answer_texts.length; i++){
+        answer.text = answer_texts[i];
+        answer.image = image_texts[i];
+        answer.isCorrectAnswer = isCorrectAnswer[i];
+        question.answers.push(answer);
+        lstQuestions.push(question);
+    }
+    console.log(lstQuestions);
+    return lstQuestions;
 }
 
 function goToThirdScreen(){
@@ -411,7 +457,7 @@ function goToThirdScreen(){
         secondScreen.classList.add("hidden");
 
         let thirdScreen = document.querySelector(".create-levels-box");
-        secondScreen.classList.remove("hidden");
+        thirdScreen.classList.remove("hidden");
     } else {
         alert("Algo está errado!");
     }
@@ -512,3 +558,27 @@ function createThirdScreen(response){
 
 }
 
+<<<<<<< HEAD
+=======
+    const element1 = document.getElementsByClassName("questions-box");
+  
+    for (let i = 0; i < element1.length; i++) {
+      element1[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+      });
+    }
+
+
+
+    const element2 = document.getElementsByClassName("Ask-level-box");
+  
+    for (let i = 0; i < element2.length; i++) {
+      element2[i].addEventListener("click", function () {
+        this.classList.add("active");
+      });
+    }
+  }
+  
+  
+  CollapseBox();
+>>>>>>> refs/remotes/origin/master

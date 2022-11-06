@@ -1,5 +1,17 @@
 @media (max-width: 1100px) {
-    .beginning-question-box, .questions-box, .Ask-level-box {
-        width: 100%;
+    .beginning-question-box,
+    .questions-box,
+    .Ask-level-box,
+    .TitleQuizzBox,
+    .FinishImg, 
+    .FinishAnswers p  {
+        width: auto;
+    }
+
+    .FinishAnswers {
+        flex-direction: column;
+    }
+    .FinishAnswers p {
+        height: auto;
     }
 }
