@@ -247,21 +247,12 @@ function createQuestions_box(){
         questions_box += 
         `
             <div class="questions-box">
-<<<<<<< HEAD
                 <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
                 <div class="content">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
-                    <input placeholder="Resposta correta " type="text" class="answer-txt">
-=======
-                <h3>Pergunta ${numeroDaPergunta}</h3>
-                <div class="content content-question">
-                    <input placeholder="Texto da pergunta" type="text" class="question-text">
-                    <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
-                    <h4>Resposta correta</h4>
                     <input placeholder="Resposta correta" type="text" class="answer-txt">
->>>>>>> 6ef07a37df07f7b41f2cf0b17337026269722983
                     <input placeholder="URL da imagem"type="text" class="img-url">
                     <h4>Respostas incorretas</h4>
                     <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
@@ -294,10 +285,6 @@ function createSecondScreen(){
     <div onclick="goToThirdScreen()" class="button"><p>Prosseguir pra criar níveis</p></div>
     `;
     CollapseBox();
-<<<<<<< HEAD
-
-=======
->>>>>>> 6ef07a37df07f7b41f2cf0b17337026269722983
 }
 
 //valida tamanho da questão
