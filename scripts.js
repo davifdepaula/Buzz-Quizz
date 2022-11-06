@@ -133,7 +133,7 @@ function validateImageUrl(imageUrl) {
 
 function validateMultImageUrl(imageUrls){
     for (let i = 0; i < imageUrls.length; i++){
-        if (validateImageUrl(imageUrls[i]) === false){
+        if (validateImageUrl(imageUrls[i].value) === false){
             return false;
         }
     }
@@ -248,7 +248,7 @@ function createQuestions_box(){
         `
             <div class="questions-box">
                 <h3>Pergunta ${numeroDaPergunta}</h3>
-                <div class="content" onclick="CollapseBox()">
+                <div class="content content-question">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
@@ -292,14 +292,6 @@ function validateQuestionLength(question){
     return aboveOrEqualMin(question.length, 20);
 }
 
-function validateAllQuestionsLength(questions){
-    for (let i = 0; i<questions.length; i++){
-        if (validateQuestionLength(questions[i] === false)){
-            return false;
-        }
-    }
-    return true;
-}
 
 function validateBackgroundColor(str){
     if (str[0] === "#" && CSS.supports('color', str)){
@@ -309,13 +301,13 @@ function validateBackgroundColor(str){
     }
 }
 
-function validateMultBackgoundColor(colors){
-    for(let i = 0; i<colors.length; i++){
+function validateAllBackgroundColor(colors){
+    for (let i = 0; i < colors.length; i++){
         if (validateBackgroundColor(colors[i]) === false){
             return false;
         }
     }
-    return false;
+    return true;
 }
 
 //checa se a resposta não está vazia
@@ -326,7 +318,7 @@ function answerNotEmpty(answer){
 
 function AllAnswersNotEmpty(answers){
     for(let i = 0; i<answers.length; i++){
-        if (answerNotEmpty === false){
+        if (answerNotEmpty(answers[i].value) === false){
             return false;
         }
     }
@@ -345,7 +337,7 @@ function isThereARightAnswer_aux(answers){
             return true;
         }
     } 
-    return false
+    return false;
 }
 
 //conta quantidade de respostas erradas na questão
@@ -356,23 +348,44 @@ function checkWrongAnswersQuantity(question){
     return (aboveOrEqualMin(quantity, 1));
 }
 
-function validateQuizzQuestions(){
-    let questions_text = document.querySelectorAll(".question-text").value;
-    console.log(questions_text);
-    let valid_questions_text = validateAllQuestionsLength(questions_text);
-    let question_colors = document.querySelectorAll(".question-color").value;
-    let valid_question_colors = validateMultBackgoundColor(question_colors);
-    let answers_text = document.querySelectorAll(".answer-text").value;
-    let valid_answers_text = validateAllQuestionsLength(answers_text);
-    let img_urls = document.querySelectorAll(".img-url").value;
-    let valid_img_urls = validateMultImageUrl(img_urls);
-
-    let isOkQuestion = valid_answers_text && valid_question_colors;
-    let isOkAnswers = valid_answers_text && valid_img_urls;
-    let isOk = isOkQuestion && isOkAnswers;
-    if (isOk === true){
-        dataToQuizz(questions_text, question_colors, answers_text, img_urls);
+function validateContent(content){
+    let content_question = content.querySelector(".question-text").value;
+    if (validateQuestionLength(content_question) === false){
+        return false
     }
+
+    let content_color = content.querySelector(".question-color").value;
+    if (validateBackgroundColor(content_color) === false){
+        return false;
+    }
+
+    let answers_text = content.querySelectorAll(".answer-text");
+    if (AllAnswersNotEmpty(answers_text) === false){
+        return false;
+    }
+
+    let img_url = content.querySelectorAll(".img-url");
+    if (validateMultImageUrl(img_url) === false){
+        return false;
+    }
+    return true;
+}
+
+function validateContents(contents){
+    for (let i = 0; i<contents.length; i++){
+        if (validateContent(contents[i]) === false){
+            return false;
+        }
+    }
+    return true;
+}
+
+function validateQuizzQuestions(){
+    let isOk = false;
+    let contents = document.querySelectorAll(".content-question");
+    console.log(contents);
+    isOk = validateContents(contents);
+    console.log("info validada!");
     return isOk; 
 }
 
