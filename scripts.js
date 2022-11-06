@@ -269,11 +269,19 @@ function createQuestions_box(){
         `
             <div class="questions-box">
                 <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
+<<<<<<< HEAD
+                <div class="content">
+                    <input placeholder="Texto da pergunta" type="text" class="question-text">
+                    <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
+                    <h4>Resposta correta</h4>
+                    <input placeholder="Resposta correta " type="text" class="answer-txt">
+=======
                 <div class="content content-question">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
                     <input placeholder="Resposta correta" type="text" class="answer-txt">
+>>>>>>> refs/remotes/origin/master
                     <input placeholder="URL da imagem"type="text" class="img-url">
                     <h4>Respostas incorretas</h4>
                     <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
@@ -467,23 +475,25 @@ function goToThirdScreen(){
 function showQuizz(quizz){
     if (idUserPost.includes(quizz.id)){
         const content = document.querySelector(".grid")
-        content.innerHTML += `<div class= "quizz" onclick = "showSecondScreen()"> 
+        content.innerHTML += `<div class= "quizz" onclick = "showthirdScreen(this)"> 
         <div class = "card">
             <div class="front"></div>
-            <img src=${quizz.image} alt =${quizz.title}/> 
+            <img src=${quizz.image} alt =${quizz.id}/> 
             <span class = "quizzTitle" > ${quizz.title} </span> 
         </div> 
         </div>`
-        return 
+        return
+
     }
     const content = document.querySelector(".grid")
-    content.innerHTML += `<div class= "quizz" onclick = "showSecondScreen()"> 
-    <div class = "card">
+    content.innerHTML += `<div class= "quizz"> 
+    <div class = "card" onclick = "showthirdScreen(this)">
         <div class="front"></div>
-        <img src=${quizz.image} alt =${quizz.title}/> 
+        <img src=${quizz.image} alt =${quizz.id}/> 
         <span class = "quizzTitle" > ${quizz.title} </span> 
     </div> 
-    </div>` 
+    </div>`
+    
 }
 
 
@@ -499,26 +509,57 @@ function showQuizz(quizz){
 getQuizes()
 
 
-function showSecondScreen(){
+function showFirstScreen(){
     const content = document.querySelector("main")
-    const secondeScreen = document.querySelector(".create-questions-box")
+    const firstScreen = document.querySelector(".main-box-basic-informations")
     content.classList.add("hidden")
-    secondeScreen.classList.remove("hidden")
+    firstScreen.classList.remove("hidden")
 }
 
-function showthirdScreen(){
+function showthirdScreen(element){
     const content = document.querySelector("main")
-    const thirdScreen = document.querySelector(".create-levels-box")
     content.classList.add("hidden")
+    const thirdScreen = document.querySelector(".PlayQuizzBox")
     thirdScreen.classList.remove("hidden")
+    const id = element.getElementsByTagName('img')[0].alt
+    const url = `https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`
+    axios.get(url)
+        .then((response) => createThirdScreen(response.data))
+        .catch((e) => console.log(e))
 }
 
-hideScreens();
-getQuizes();
+function createThirdScreen(response){
+    const content = document.querySelector(".PlayQuizzBox")
+    console.log(response)
+    content.innerHTML = ""
+    content.innerHTML += `<div class="thirdScreenCard">
+    <div class="front"></div>
+    <img  src=${response.image} alt="">
+    <p class = "TitlePlayQuizz">${response.title}</p>
+</div>`
+    let j = 0
+    response.questions.map((quizz) => {
+        content.innerHTML += `<div class="QuizzBox">
+        <div class="TitleQuizzBox"><p>${quizz.title}</p></div>
+        <div class="QuizzAnswers">
+        </div>
+        </div>`
+        quizz.answers.map((answer) => {
+            console.log(answer)
+            const target = content.querySelectorAll(".QuizzAnswers")[j]
+            target.innerHTML +=
+            `  <div class="AnswerImg">
+                    <img class="" src=${answer.image} alt = ${answer.isCorrectAnswer}>
+                    <p>${answer.text}</p>
+                </div>`
+        })
+        j+=1
+    })
 
-// Fazer o efeito de aparecer e esconder a caixa com as perguntas/niveis
-function CollapseBox() {
+}
 
+<<<<<<< HEAD
+=======
     const element1 = document.getElementsByClassName("questions-box");
   
     for (let i = 0; i < element1.length; i++) {
@@ -540,3 +581,4 @@ function CollapseBox() {
   
   
   CollapseBox();
+>>>>>>> refs/remotes/origin/master
