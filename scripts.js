@@ -269,19 +269,11 @@ function createQuestions_box(){
         `
             <div class="questions-box">
                 <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
-<<<<<<< HEAD
-                <div class="content">
-                    <input placeholder="Texto da pergunta" type="text" class="question-text">
-                    <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
-                    <h4>Resposta correta</h4>
-                    <input placeholder="Resposta correta " type="text" class="answer-txt">
-=======
                 <div class="content content-question">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
                     <input placeholder="Resposta correta" type="text" class="answer-txt">
->>>>>>> refs/remotes/origin/master
                     <input placeholder="URL da imagem"type="text" class="img-url">
                     <h4>Respostas incorretas</h4>
                     <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
@@ -555,30 +547,4 @@ function createThirdScreen(response){
         })
         j+=1
     })
-
 }
-
-<<<<<<< HEAD
-=======
-    const element1 = document.getElementsByClassName("questions-box");
-  
-    for (let i = 0; i < element1.length; i++) {
-      element1[i].addEventListener("click", function () {
-        this.classList.add("active");
-      });
-    }
-
-
-
-    const element2 = document.getElementsByClassName("Ask-level-box");
-  
-    for (let i = 0; i < element2.length; i++) {
-      element2[i].addEventListener("click", function () {
-        this.classList.add("active");
-      });
-    }
-  }
-  
-  
-  CollapseBox();
->>>>>>> refs/remotes/origin/master
