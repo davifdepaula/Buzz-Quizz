@@ -520,36 +520,6 @@ function showthirdScreen(element){
         .catch((e) => console.log(e))
 }
 
-<<<<<<< HEAD
-function createThirdScreen(response){
-    const content = document.querySelector(".PlayQuizzBox")
-    console.log(response)
-    content.innerHTML = ""
-    content.innerHTML += `<div class="thirdScreenCard">
-    <div class="front"></div>
-    <img  src=${response.image} alt="">
-    <p class = "TitlePlayQuizz">${response.title}</p>
-</div>`
-    let j = 0
-    response.questions.map((quizz) => {
-        content.innerHTML += `<div class="QuizzBox">
-        <div class="TitleQuizzBox"><p>${quizz.title}</p></div>
-        <div class="QuizzAnswers">
-        </div>
-        </div>`
-        quizz.answers.map((answer) => {
-            console.log(answer)
-            const target = content.querySelectorAll(".QuizzAnswers")[j]
-            target.innerHTML +=
-            `  <div class="AnswerImg">
-                    <img class="" src=${answer.image} alt = ${answer.isCorrectAnswer}>
-                    <p>${answer.text}</p>
-                </div>`
-        })
-        j+=1
-    })
-}
-=======
 hideScreens();
 getQuizes();
 
@@ -560,7 +530,7 @@ function CollapseBox() {
   
     for (let i = 0; i < element1.length; i++) {
       element1[i].addEventListener("click", function () {
-        this.classList.toggle("active");
+        this.classList.add("active");
       });
     }
 
@@ -577,4 +547,3 @@ function CollapseBox() {
   
   
   CollapseBox();
->>>>>>> parent of b14375c (questões inseridas no quiz)
