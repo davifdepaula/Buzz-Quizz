@@ -247,21 +247,12 @@ function createQuestions_box(){
         questions_box += 
         `
             <div class="questions-box">
-<<<<<<< HEAD
                 <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
                 <div class="content">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
                     <input placeholder="Resposta correta " type="text" class="answer-txt">
-=======
-                <h3>Pergunta ${numeroDaPergunta}</h3>
-                <div class="content" onclick="CollapseBox()">
-                    <input placeholder="Texto da pergunta" type="text" class="question-text">
-                    <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
-                    <h4>Resposta correta</h4>
-                    <input placeholder="Resposta correta" type="text" class="answer-txt">
->>>>>>> 6ef07a37df07f7b41f2cf0b17337026269722983
                     <input placeholder="URL da imagem"type="text" class="img-url">
                     <h4>Respostas incorretas</h4>
                     <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
@@ -294,10 +285,6 @@ function createSecondScreen(){
     <div onclick="goToThirdScreen()" class="button"><p>Prosseguir pra criar níveis</p></div>
     `;
     CollapseBox();
-<<<<<<< HEAD
-
-=======
->>>>>>> 6ef07a37df07f7b41f2cf0b17337026269722983
 }
 
 //valida tamanho da questão
@@ -486,40 +473,42 @@ function showFirstScreen(){
 function showthirdScreen(element){
     const content = document.querySelector("main")
     content.classList.add("hidden")
+    const thirdScreen = document.querySelector(".PlayQuizzBox")
+    thirdScreen.classList.remove("hidden")
     const id = element.getElementsByTagName('img')[0].alt
     const url = `https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`
     axios.get(url)
-        .then((response) => console.log(response))
+        .then((response) => createThirdScreen(response.data))
         .catch((e) => console.log(e))
 }
 
-<<<<<<< HEAD
-=======
-hideScreens();
-getQuizes();
+function createThirdScreen(response){
+    const content = document.querySelector(".PlayQuizzBox")
+    console.log(response)
+    content.innerHTML = ""
+    content.innerHTML += `<div class="thirdScreenCard">
+    <div class="front"></div>
+    <img  src=${response.image} alt="">
+    <p class = "TitlePlayQuizz">${response.title}</p>
+</div>`
+    let j = 0
+    response.questions.map((quizz) => {
+        content.innerHTML += `<div class="QuizzBox">
+        <div class="TitleQuizzBox"><p>${quizz.title}</p></div>
+        <div class="QuizzAnswers">
+        </div>
+        </div>`
+        quizz.answers.map((answer) => {
+            console.log(answer)
+            const target = content.querySelectorAll(".QuizzAnswers")[j]
+            target.innerHTML +=
+            `  <div class="AnswerImg">
+                    <img class="" src=${answer.image} alt = ${answer.isCorrectAnswer}>
+                    <p>${answer.text}</p>
+                </div>`
+        })
+        j+=1
+    })
 
-// Fazer o efeito de aparecer e esconder a caixa com as perguntas/niveis
-function CollapseBox() {
+}
 
-    const element1 = document.getElementsByClassName("questions-box");
-  
-    for (let i = 0; i < element1.length; i++) {
-      element1[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-      });
-    }
-
-
-
-    const element2 = document.getElementsByClassName("Ask-level-box");
-  
-    for (let i = 0; i < element2.length; i++) {
-      element2[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-      });
-    }
-  }
-  
-  
-  CollapseBox();
->>>>>>> refs/remotes/origin/master
