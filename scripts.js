@@ -24,6 +24,16 @@ let question = {
         ]
     };
 
+let answer = {
+    text : "",
+    image : "",
+    isCorrectAnswer: undefined
+}
+
+let answer_texts = [];
+let image_texts = [];
+let isCorrectAnswer = [true, false, false, false];
+
 //modelos de respostas:
 /*{
 			    text: "",
@@ -62,6 +72,15 @@ function resetGlobalVariables(){
     imageUrl = "";
     numberOfQuestions = 0;
     numberOfLevels = 0;
+    answer_texts = [];
+    image_texts = [];
+    isCorrectAnswer = [true, false, false, false];
+    answer = {
+        text : "",
+        image : "",
+        isCorrectAnswer: undefined
+    }
+    resetQuestion();
 }
 
 //verifica se o numero passado é maior ou igual ao minimo permitido
@@ -135,6 +154,8 @@ function validateMultImageUrl(imageUrls){
     for (let i = 0; i < imageUrls.length; i++){
         if (validateImageUrl(imageUrls[i].value) === false){
             return false;
+        } else {
+            image_texts.push(imageUrls[i]);
         }
     }
     return true;
@@ -248,7 +269,7 @@ function createQuestions_box(){
         `
             <div class="questions-box">
                 <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
-                <div class="content">
+                <div class="content content-question">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
@@ -320,8 +341,11 @@ function answerNotEmpty(answer){
 
 function AllAnswersNotEmpty(answers){
     for(let i = 0; i<answers.length; i++){
+        console.log(answerNotEmpty(answers[i].value));
         if (answerNotEmpty(answers[i].value) === false){
             return false;
+        } else {
+            answer_texts.push(answers[i]);
         }
     }
     return true
@@ -354,14 +378,18 @@ function validateContent(content){
     let content_question = content.querySelector(".question-text").value;
     if (validateQuestionLength(content_question) === false){
         return false
+    } else {
+        question.title = content_question;
     }
-
+    
     let content_color = content.querySelector(".question-color").value;
     if (validateBackgroundColor(content_color) === false){
         return false;
+    } else {
+        question.color = content.color;
     }
 
-    let answers_text = content.querySelectorAll(".answer-text");
+    let answers_text = content.querySelectorAll(".answer-txt");
     if (AllAnswersNotEmpty(answers_text) === false){
         return false;
     }
@@ -385,35 +413,32 @@ function validateContents(contents){
 function validateQuizzQuestions(){
     let isOk = false;
     let contents = document.querySelectorAll(".content-question");
-    console.log(contents);
     isOk = validateContents(contents);
-    console.log("info validada!");
+    if (isOk){
+        console.log("info validada!");
+        questionsToQuizz(answersToQuestion());
+    } 
+    
     return isOk; 
 }
 
-function dataToQuizz(questions, colors, answers, urls){
-    //let questions = [];
-    for (let i = 0; i<questions.length; i++){
-        question.title = questions[i];
-        question.color = colors[i];
-        for (let j = i; i<answers.length; j++){
-            if (i === j){
-                question.answers.push = {
-                    text: answers[i],
-                    image: urls[i],
-                    isCorrectAnswer: true
-                };
-            } else {
-                question.answers.push = {
-                    text: answers[i],
-                    image: urls[i],
-                    isCorrectAnswer: false
-                };
-            }
-        }
-        quizz.questions.push(question);
-        resetQuestion;
+function questionsToQuizz(questionsLst){
+    for (let i = 0; i<questionsLst.length; i++){
+        quizz.questions.push(questionsLst[i]);
     }
+}
+
+function answersToQuestion(){
+    let lstQuestions = [];
+    for (let i = 0; i<answer_texts.length; i++){
+        answer.text = answer_texts[i];
+        answer.image = image_texts[i];
+        answer.isCorrectAnswer = isCorrectAnswer[i];
+        question.answers.push(answer);
+        lstQuestions.push(question);
+    }
+    console.log(lstQuestions);
+    return lstQuestions;
 }
 
 function goToThirdScreen(){
@@ -424,7 +449,7 @@ function goToThirdScreen(){
         secondScreen.classList.add("hidden");
 
         let thirdScreen = document.querySelector(".create-levels-box");
-        secondScreen.classList.remove("hidden");
+        thirdScreen.classList.remove("hidden");
     } else {
         alert("Algo está errado!");
     }
