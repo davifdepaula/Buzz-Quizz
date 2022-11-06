@@ -1,7 +1,7 @@
 //Para obter todos os quizzes, faça uma requisição GET para a imageUrl
 //const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
-let quizzList = [], idUserPost = []
+let quizzList = [], idUserPost = [];
 
 //Para buscar um único quizz, faça uma requisição GET para a imageUrl
 /*"https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + "ID_DO_QUIZZ";*/
@@ -28,7 +28,7 @@ let answer = {
     text : "",
     image : "",
     isCorrectAnswer: undefined
-}
+};
 
 let answer_texts = [];
 let image_texts = [];
@@ -87,21 +87,21 @@ function resetGlobalVariables(){
 //as entradas são 2 números e a saída é booleano
 
 function checkLocalStorage(){
-    let arr = localStorage.getItem("idUserPost")
+    let arr = localStorage.getItem("idUserPost");
     if (arr === null){
-        const content = document.querySelector(".creatQuizz")
-        content.classList.remove("hidden")
+        const content = document.querySelector(".creatQuizz");
+        content.classList.remove("hidden");
     }
 
     else{
-        const content = document.querySelector(".userQuizzContainer")
-        content.classList.remove("hidden")
-        arr = JSON.parse(arr)   
-        idUserPost = [...arr] 
+        const content = document.querySelector(".userQuizzContainer");
+        content.classList.remove("hidden");
+        arr = JSON.parse(arr);
+        idUserPost = [...arr]; 
     }
 }
 
-checkLocalStorage()
+checkLocalStorage();
 
 
 function aboveOrEqualMin(value, minimal){
@@ -127,7 +127,7 @@ function belowOrEqualMax(value, max){
 // quantity é uma string, min é um número, o retorno é booleano
 function checkQuantity(quantity, min){
     const number = Number(quantity);
-    return aboveOrEqualMin(quantity, number)
+    return aboveOrEqualMin(quantity, number);
 }
 
 //checa se a imageUrl da imageUrlm funciona, peguei aqui:
@@ -139,10 +139,10 @@ function validateImageUrl(imageUrl) {
 	img.src = imageUrl;
 
 	img.onload = function() {
-	}
+	};
 	img.onerror = function() {
 		console.log("A imageUrl" + imageUrl + " NAO existe");
-	}
+	};
     if (img.src === imageUrl){
         return true;
     } else {
@@ -523,7 +523,7 @@ function CollapseBox() {
   
     for (let i = 0; i < element1.length; i++) {
       element1[i].addEventListener("click", function () {
-        this.classList.toggle("active");
+        this.classList.add("active");
       });
     }
 
