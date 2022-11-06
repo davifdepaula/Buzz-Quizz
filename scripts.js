@@ -241,34 +241,38 @@ function goToSecondScreen(){
 //inicio Criação do Quizz: Perguntas do quizz
 
 function createQuestions_box(){
-    let questions_box = ``;
+    let questions_box = '';
     let numeroDaPergunta; 
     for (let i = 0; i<numberOfQuestions; i++){
         numeroDaPergunta = i + 1;
         questions_box += 
         `
             <div class="questions-box">
-                <h3>Pergunta ${numeroDaPergunta}</h3>
-                <input placeholder="Texto da pergunta" type="text" class="question-text">
-                <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
-                <h3>Resposta correta</h3>
-                <input placeholder="Resposta correta " type="text" class="answer-txt">
-                <input placeholder="URL da imagem"type="text" class="img-url">
-                <h3>Respostas incorretas</h3>
-                <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
-                <input placeholder="URL da imagem 1"type="text" class="img-url">
-                <div class="space"></div>
-                <input placeholder="Resposta incorreta 2" type="text" class="answer-txt">
-                <input placeholder="URL da imagem 2"type="text" class="img-url">
-                <div class="space"></div>
-                <input placeholder="Resposta incorreta 3" type="text" class="answer-txt">
-                <input placeholder="URL da imagem 3"type="text" class="img-url">
+                <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
+                <div class="content">
+                    <input placeholder="Texto da pergunta" type="text" class="question-text">
+                    <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
+                    <h4>Resposta correta</h4>
+                    <input placeholder="Resposta correta " type="text" class="answer-txt">
+                    <input placeholder="URL da imagem"type="text" class="img-url">
+                    <h4>Respostas incorretas</h4>
+                    <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
+                    <input placeholder="URL da imagem 1"type="text" class="img-url">
+                    <div class="space"></div>
+                    <input placeholder="Resposta incorreta 2" type="text" class="answer-txt">
+                    <input placeholder="URL da imagem 2"type="text" class="img-url">
+                    <div class="space"></div>
+                    <input placeholder="Resposta incorreta 3" type="text" class="answer-txt">
+                    <input placeholder="URL da imagem 3"type="text" class="img-url">
+                </div>
             </div>
             <div class="space"></div>
         `;
     }
     return questions_box;
 }
+
+
 
 function createSecondScreen(){
     let firstScreen = document.querySelector(".main-box-basic-informations");
@@ -281,7 +285,9 @@ function createSecondScreen(){
     <h2>Crie suas perguntas</h2>
     ${createQuestions_box()}
     <div onclick="goToThirdScreen()" class="button"><p>Prosseguir pra criar níveis</p></div>
-    `
+    `;
+    CollapseBox();
+
 }
 
 //valida tamanho da questão
@@ -495,5 +501,6 @@ function CollapseBox() {
       });
     }
   }
+  
   
   CollapseBox();
