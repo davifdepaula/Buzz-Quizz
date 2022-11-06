@@ -2,6 +2,10 @@
     box-sizing: border-box;
   }
 
+  body {
+    background: #E5E5E5;
+  }
+
   .container-basic-information {
     font-family: 'Roboto';
    
@@ -29,7 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 71px;
+    
   }
 
   h1 {
@@ -44,17 +48,99 @@
     
   }
 
-  .main-box-basic-informations, .create-questions-box, .create-levels-box, .Finished-quizz-box  {
+  .main-box-basic-informations, 
+  .create-questions-box,
+   .create-levels-box, 
+   .Finished-quizz-box
+   
+     {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 13px;
   }
+.PlayQuizzBox {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 42px;
+}
+  .castle img {
+    width: 100%;
+    height: 227px;
+    margin-bottom: 28px ;
+    
+  }
 
+  .TitlePlayQuizz {
+    position: relative;
+    
+  }
+  .TitlePlayQuizz p {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 23px;
+    line-height: 27px;
+    color: #FFFFFF;
+    
+  }
+  .QuizzBox {
+    width: 759px;
+    height: auto;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    padding: 28px 36px 36px 36px;
+    gap: 9px ;
+    margin-bottom: ;
+  }
+
+  .TitleQuizzBox {
+    width: 100%;
+    height: 138px;
+    background: #434CA0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .TitleQuizzBox p {
+    width: 100%;
+  }
+  .QuizzAnswers {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 19px;
+    
+    
+  }
+  .QuizzAnswers img {
+    width: 331px;
+    height: 175.2px;
+  }
+
+  .AnswerImg p {
+    color: #000000;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 23px;
+    width: 331px;
+    height: 34.11px;
+    display: flex;
+    justify-content: left;
+
+  }
   .hidden{
     display: none ;
 }
+
+
   h2 {
     width: auto;
     height: 27px;
@@ -64,10 +150,11 @@
     font-size: 23px;
     line-height: 27px;
     color: #000000;
+    margin-top: 71px;
     margin-bottom: 27px;
   }
 
-  h3 {
+  h3,h4 {
     width: auto;
     height: 23px;
     font-family: 'Roboto';
@@ -77,6 +164,10 @@
     line-height: 23px;
     color: #000000;
     margin-top: 27px;
+  }
+
+  h4{
+    margin-bottom: 24px;
   }
 
 .beginning-question-box {
@@ -102,10 +193,12 @@
 }
 
 input {
+     width: 100%;
     height: 46px;
     background: #FFFFFF;
     border: 1px solid #D1D1D1;
     border-radius: 5px;
+    margin-bottom: 14px;
     
 }
 
@@ -163,6 +256,44 @@ p {
     align-items: center;
     justify-content: center;
 }
+/*Fazer o efeito de esconder e aparecer as caixas das perguntas*/
+.create-levels-box .Ask-level-box h3,
+.create-questions-box .questions-box h3 {
+  position: relative;
+  
+}
+
+.create-levels-box .Ask-level-box h3::before,
+.create-questions-box .questions-box h3::before {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+}
+
+.create-levels-box .Ask-level-box.active h3::before,
+.create-questions-box .questions-box.active h3::before {
+  content: "-";
+}
+
+.create-levels-box .Ask-level-box .content,
+.create-questions-box .questions-box .content{
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  transition: 0.5s;
+  overflow-y: auto;
+}
+
+.create-questions-box .questions-box.active .content {
+  height: 750px;
+}
+.create-levels-box .Ask-level-box.active .content {
+  height: 240px;
+}
+
 .imgF4 {
     position: relative;
 }
