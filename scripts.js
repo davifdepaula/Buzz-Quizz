@@ -15,6 +15,27 @@ let imageUrl;
 let numberOfQuestions;
 let numberOfLevels;
 
+let quizz = {
+    id: 1,
+ 	title: "",
+ 	image: "",
+ 	questions: []};
+
+let question = {
+    title: "",
+ 	color: "",
+ 	answers: 
+        [
+ 		    
+        ]
+    };
+
+let answer = {
+    text : "",
+    image : "",
+    isCorrectAnswer: undefined
+}
+
 //início funcões genéricas
 
 function resetQuizz(){
@@ -128,7 +149,7 @@ function hideScreens(){
     createQuestionsBox.classList.add("hidden");
 
     let secondScreen = document.querySelector(".create-questions-box");
-    secondScreen.classList.add("hidden");    
+    secondScreen.classList.add("hidden");  
     
     let thirdScreen = document.querySelector(".create-levels-box");
     thirdScreen.classList.add("hidden");
@@ -412,9 +433,8 @@ function goToThirdScreen(){
         let secondScreen = document.querySelector(".create-questions-box");
         secondScreen.classList.add("hidden");
 
-        createLevelsQuizzScreen();
-
-        
+        let thirdScreen = document.querySelector(".create-levels-box");
+        thirdScreen.classList.remove("hidden");
     } else {
         alert("Algo está errado!");
     }
@@ -422,150 +442,7 @@ function goToThirdScreen(){
 
 //fim Criação do Quizz: Perguntas do quizz
 
-//inicio Criação do Quizz: Níveis do quizz
-
-function createLevelsBox(){
-    let levelBox = ``;
-    let numeroDoNivel;
-    for (let i = 0; i < numberOfLevels; i++){
-        numeroDoNivel = i+1;
-        levelBox += 
-        `
-        <div class="Ask-level-box">
-            <h3>Nível ${numeroDoNivel}</h3>
-            <div class="content content-level">
-                <input placeholder="Título do nível" type="text" class="level-text">
-                <input placeholder="% de acerto mínima"type="text" class="level-accuracy">
-                <input placeholder="URL da imagem do nível" type="text" class="level-img">
-                <input placeholder="Descrição do nível"type="text" class="level-description">
-            </div>
-         </div>
-        `;
-    }
-    return levelBox;
-}
-
-function validateLevel(level){
-    let level_question = level.querySelector(".level-text").value;
-    if (validateLevelTitleLength(level_question) === false){
-        return false
-    } 
-    
-    let level_accuracy = level.querySelector(".level-accuracy").value;
-    if (validateAllAccuracy(level_accuracy) === false){
-        return false;
-    }
-
-    let level_img = level.querySelector(".level-img").value;
-    if (validateImageUrl(level_img) === false){
-        console.log(false);
-        return false;
-    }
-
-    let level_description = level.querySelector(".level-description").value;
-    if (validateLevelDescription(level_description) === false){
-        console.log(false);
-        return false;
-    }
-
-    
-    return true;
-}
-
-function validateLevels(levels){
-    for (let i = 0; i<levels.length; i++){
-        if (validateLevel(levels[i]) === false){
-            return false;
-        }
-    }
-    return true;
-}
-
-function validateQuizzLevels(){
-    let isOk = false;
-    let contents = document.querySelectorAll(".content-level");
-    isOk = validateLevels(contents);
-    if (isOk){
-        console.log("info validada!");
-    } 
-    
-    return isOk; 
-}
-
-function goToFinishQuizzScreen(){
-    let isOk = validateQuizzLevels();
-    console.log(isOk);
-}
-
-function createLevelsQuizzScreen(){
-    let thirdScreen = document.querySelector(".create-levels-box");
-    thirdScreen.classList.remove("hidden");
-
-    thirdScreen.innerHTML = 
-    `
-
-            <h2>Agora, decida os níveis</h2>
-            ${createLevelsBox()}
-            <div onclick="goToFinishQuizzScreen()" class="button"><p>Finalizar Quizz</p></div>
-
-    `;
-    CollapseBox();
-}
-
-function validateAllLevelTitleLength(titles){
-    for (let i = 0; i<titles.length; i++){
-        if (validateLevelTitleLength(titles[i]) === false){
-            return false;
-        }
-    }
-    return true;
-}
-
-function validateLevelTitleLength(titleText){
-    console.log(titleText);
-    if (titleText.length >= 10){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function validateAllAccuracy(accuracyLst){
-    for (let i = 0; i<accuracyLst.length; i++){
-        if (validateAccuracy(accuracyLst[i]) === false){
-            return false;
-        }
-    }
-    return true;
-}
-
-function validateAccuracy(accuracy){
-    if (accuracy >= 0 && accuracy <= 100){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function validateAllLevelDescription(descriptions){
-    for (let i = 0; i<descriptions.length; i++){
-        if (validateLevelDescription(descriptions[i]) === false){
-            return false;
-        }
-    }
-    return true;
-}
-
-function validateLevelDescription(description){
-    if (description.length >= 30){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
-//fim Criação do Quizz: Níveis do quizz
+//
 
 
 
@@ -656,5 +533,27 @@ function createThirdScreen(response){
         j+=1
     })
 
-}
+};
+
+
+function CollapseBox() {
+
+    const element1 = document.getElementsByClassName("questions-box");
+
+    for (let i = 0; i < element1.length; i++) {
+      element1[i].addEventListener("click", function () {
+        this.classList.add("active");
+      });
+    }
+
+
+
+    const element2 = document.getElementsByClassName("Ask-level-box");
+
+    for (let i = 0; i < element2.length; i++) {
+      element2[i].addEventListener("click", function () {
+        this.classList.add("active");
+      });
+    }
+  }
 
