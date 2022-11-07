@@ -101,9 +101,9 @@
     font-weight: 700;
     font-size: 23px;
     line-height: 27px;
-    color: #FFFFFF;
-    
+    color: #FFFFFF;    
   }
+  
   .QuizzBox {
     width: 759px;
     height: auto;
@@ -111,18 +111,6 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
     padding: 28px 36px 36px 36px;
     gap: 9px ;
-<<<<<<< HEAD
-=======
-  }
-
-  .FinishQuizzBox {
-    width: 759px;
-    height: auto;
-    background: #FFFFFF;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
-    padding: 18px 14px 22px 18px;
-    gap: 9px ;
->>>>>>> refs/remotes/origin/master
   }
 
   .TitleQuizzBox {
@@ -523,6 +511,18 @@ main {
   z-index: 1;
 }
 
+.right p {
+  color: #009C22;
+}
+
+
+.wrong {
+  opacity: 0.3;
+}
+
+.wrong p {
+  color: #FF4B4B;
+}
 
 /* fim do display da lista de quuizzes */
 

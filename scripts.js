@@ -1,52 +1,14 @@
 //Para obter todos os quizzes, faça uma requisição GET para a imageUrl
 //const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
-let quizzList = [], idUserPost = []
+let quizzList = [], idUserPost = [],  percent = 0
+let isOver = 0
 
 //Para buscar um único quizz, faça uma requisição GET para a imageUrl
 /*"https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + "ID_DO_QUIZZ";*/
 
 //Para criar um quizz, envie uma requisição POST para a imageUrl
 //https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes
-
-let quizz = {
-    id: 1,
- 	title: "",
- 	image: "",
- 	questions: []};
-
-let question = {
-    title: "",
- 	color: "",
- 	answers: 
-        [
- 		    
-        ]
-    };
-
-let answer = {
-    text : "",
-    image : "",
-    isCorrectAnswer: undefined
-}
-
-let answer_texts = [];
-let image_texts = [];
-let isCorrectAnswer = [true, false, false, false];
-
-//modelos de respostas:
-/*{
-			    text: "",
-    			image: "",
-	    		isCorrectAnswer: true
-		    },
-		    {
- 		    	text: "",
- 			    image: "",
- 			    isCorrectAnswer: false
-}*/
-
-
 
 let title;
 let imageUrl;
@@ -269,19 +231,11 @@ function createQuestions_box(){
         `
             <div class="questions-box">
                 <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
-<<<<<<< HEAD
                 <div class="content">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
                     <input placeholder="Resposta correta " type="text" class="answer-txt">
-=======
-                <div class="content content-question">
-                    <input placeholder="Texto da pergunta" type="text" class="question-text">
-                    <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
-                    <h4>Resposta correta</h4>
-                    <input placeholder="Resposta correta" type="text" class="answer-txt">
->>>>>>> refs/remotes/origin/master
                     <input placeholder="URL da imagem"type="text" class="img-url">
                     <h4>Respostas incorretas</h4>
                     <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
@@ -529,8 +483,8 @@ function showthirdScreen(element){
 }
 
 function createThirdScreen(response){
+    numberOfQuestions = response.questions.length
     const content = document.querySelector(".PlayQuizzBox")
-    console.log(response)
     content.innerHTML = ""
     content.innerHTML += `<div class="thirdScreenCard">
     <div class="front"></div>
@@ -545,40 +499,52 @@ function createThirdScreen(response){
         </div>
         </div>`
         quizz.answers.map((answer) => {
-            console.log(answer)
             const target = content.querySelectorAll(".QuizzAnswers")[j]
             target.innerHTML +=
-            `  <div class="AnswerImg">
+            `  <div class="AnswerImg" onclick = "checkAnswer(this)">
                     <img class="" src=${answer.image} alt = ${answer.isCorrectAnswer}>
                     <p>${answer.text}</p>
                 </div>`
         })
         j+=1
     })
-
 }
 
-<<<<<<< HEAD
-=======
-    const element1 = document.getElementsByClassName("questions-box");
-  
-    for (let i = 0; i < element1.length; i++) {
-      element1[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-      });
+function checkEndAnswer(){
+    console.log(isOver)
+}
+
+function checkAnswer(element){
+    const parent = element.parentNode
+    if(!parent.classList.contains("clicked")){
+        parent.classList.add("clicked")
+        click(element)
     }
+}
 
-
-
-    const element2 = document.getElementsByClassName("Ask-level-box");
-  
-    for (let i = 0; i < element2.length; i++) {
-      element2[i].addEventListener("click", function () {
-        this.classList.add("active");
-      });
+function click (element) {
+    const parent = element.parentNode
+    if (element.getElementsByTagName('img')[0].alt === "true"){
+        element.classList.add("right")
+        percent+=1
     }
-  }
-  
-  
-  CollapseBox();
->>>>>>> refs/remotes/origin/master
+    else {
+        element.classList.add("wrong")
+    }
+    isOver += 1
+    console.log(isOver)
+    console.log(numberOfQuestions)
+    const arr = parent.querySelectorAll(".AnswerImg")
+    for (let i in arr){
+        if (!arr[i].classList.contains("right") || !arr[i].classList.contains("right")){
+            if (arr[i].getElementsByTagName('img')[0].alt === "true"){
+                arr[i].classList.add("right")
+            }
+            else{
+                arr[i].classList.add("wrong") 
+            }
+        }
+    }
+}
+
+
