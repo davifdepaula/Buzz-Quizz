@@ -166,7 +166,13 @@ function hideScreens(){
     createQuestionsBox.classList.add("hidden");
 
     let secondScreen = document.querySelector(".create-questions-box");
-    secondScreen.classList.add("hidden");    
+    secondScreen.classList.add("hidden");  
+    
+    let thirdScreen = document.querySelector(".create-levels-box");
+    thirdScreen.classList.add("hidden");
+
+    let fourthScreen = document.querySelector(".Finished-quizz-box");
+    fourthScreen.classList.add("hidden");
 }
 
 //fim funcções genéricas
@@ -195,9 +201,7 @@ function validateQuizzTitleLength(title){
     }
 }
 
-//para validar a imageUrl de uma imageUrlm chame esta função genérica que criei
-//esta função está escrita na seção de funções genéricas
-//validateImageUrl("");
+
 
 //checa quantidade de questões
 function validateNumberOfQuestions(quantity){
@@ -351,9 +355,7 @@ function AllAnswersNotEmpty(answers){
     return true
 }
 
-//para validar a imageUrl de uma imageUrlm chame esta função genérica que criei
-//esta função está escrita na seção de funções genéricas
-//validateImageUrl("");
+
 
 //checa se há uma resposta certa na lista de respostas
 //a entrada é uma lista de respostas, a saída é booleano
@@ -448,8 +450,9 @@ function goToThirdScreen(){
         let secondScreen = document.querySelector(".create-questions-box");
         secondScreen.classList.add("hidden");
 
-        let thirdScreen = document.querySelector(".create-levels-box");
-        thirdScreen.classList.remove("hidden");
+        createLevelsQuizzScreen();
+
+        
     } else {
         alert("Algo está errado!");
     }
@@ -457,7 +460,150 @@ function goToThirdScreen(){
 
 //fim Criação do Quizz: Perguntas do quizz
 
-//
+//inicio Criação do Quizz: Níveis do quizz
+
+function createLevelsBox(){
+    let levelBox = ``;
+    let numeroDoNivel;
+    for (let i = 0; i < numberOfLevels; i++){
+        numeroDoNivel = i+1;
+        levelBox += 
+        `
+        <div class="Ask-level-box">
+            <h3>Nível ${numeroDoNivel}</h3>
+            <div class="content content-level">
+                <input placeholder="Título do nível" type="text" class="level-text">
+                <input placeholder="% de acerto mínima"type="text" class="level-accuracy">
+                <input placeholder="URL da imagem do nível" type="text" class="level-img">
+                <input placeholder="Descrição do nível"type="text" class="level-description">
+            </div>
+         </div>
+        `;
+    }
+    return levelBox;
+}
+
+function validateLevel(level){
+    let level_question = level.querySelector(".level-text").value;
+    if (validateLevelTitleLength(level_question) === false){
+        return false
+    } 
+    
+    let level_accuracy = level.querySelector(".level-accuracy").value;
+    if (validateAllAccuracy(level_accuracy) === false){
+        return false;
+    }
+
+    let level_img = level.querySelector(".level-img").value;
+    if (validateImageUrl(level_img) === false){
+        console.log(false);
+        return false;
+    }
+
+    let level_description = level.querySelector(".level-description").value;
+    if (validateLevelDescription(level_description) === false){
+        console.log(false);
+        return false;
+    }
+
+    
+    return true;
+}
+
+function validateLevels(levels){
+    for (let i = 0; i<levels.length; i++){
+        if (validateLevel(levels[i]) === false){
+            return false;
+        }
+    }
+    return true;
+}
+
+function validateQuizzLevels(){
+    let isOk = false;
+    let contents = document.querySelectorAll(".content-level");
+    isOk = validateLevels(contents);
+    if (isOk){
+        console.log("info validada!");
+    } 
+    
+    return isOk; 
+}
+
+function goToFinishQuizzScreen(){
+    let isOk = validateQuizzLevels();
+    console.log(isOk);
+}
+
+function createLevelsQuizzScreen(){
+    let thirdScreen = document.querySelector(".create-levels-box");
+    thirdScreen.classList.remove("hidden");
+
+    thirdScreen.innerHTML = 
+    `
+
+            <h2>Agora, decida os níveis</h2>
+            ${createLevelsBox()}
+            <div onclick="goToFinishQuizzScreen()" class="button"><p>Finalizar Quizz</p></div>
+
+    `;
+    CollapseBox();
+}
+
+function validateAllLevelTitleLength(titles){
+    for (let i = 0; i<titles.length; i++){
+        if (validateLevelTitleLength(titles[i]) === false){
+            return false;
+        }
+    }
+    return true;
+}
+
+function validateLevelTitleLength(titleText){
+    console.log(titleText);
+    if (titleText.length >= 10){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validateAllAccuracy(accuracyLst){
+    for (let i = 0; i<accuracyLst.length; i++){
+        if (validateAccuracy(accuracyLst[i]) === false){
+            return false;
+        }
+    }
+    return true;
+}
+
+function validateAccuracy(accuracy){
+    if (accuracy >= 0 && accuracy <= 100){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validateAllLevelDescription(descriptions){
+    for (let i = 0; i<descriptions.length; i++){
+        if (validateLevelDescription(descriptions[i]) === false){
+            return false;
+        }
+    }
+    return true;
+}
+
+function validateLevelDescription(description){
+    if (description.length >= 30){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+//fim Criação do Quizz: Níveis do quizz
 
 
 
