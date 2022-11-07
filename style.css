@@ -198,6 +198,8 @@
     font-weight: 700;
     font-size: 19px;
     color: #484848;
+    overflow-wrap: break-word;
+    word-break: break-all;
     display: flex;
     align-items: flex-start;
   }
