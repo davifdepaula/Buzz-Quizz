@@ -1,8 +1,9 @@
 //Para obter todos os quizzes, faça uma requisição GET para a imageUrl
 //const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
-let quizzList = [], idUserPost = [],  percent = 0
-let isOver = 0
+const quizzList = []
+let idUserPost = [], arrLevels = []
+let isOver = 0, quizzId = 0, percent = 0
 
 //Para buscar um único quizz, faça uma requisição GET para a imageUrl
 /*"https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + "ID_DO_QUIZZ";*/
@@ -688,6 +689,12 @@ function showthirdScreen(element){
 }
 
 function createThirdScreen(response){
+<<<<<<< HEAD
+    numberOfQuestions = response.questions.length
+    quizzId = response.id
+    arrLevels = response.levels
+=======
+>>>>>>> refs/remotes/origin/master
     const content = document.querySelector(".PlayQuizzBox")
     console.log(response)
     content.innerHTML = ""
@@ -707,13 +714,63 @@ function createThirdScreen(response){
             console.log(answer)
             const target = content.querySelectorAll(".QuizzAnswers")[j]
             target.innerHTML +=
+<<<<<<< HEAD
+            `  <div class="AnswerImg" onclick ="checkAnswer(this)">
+                    <img src=${answer.image} alt = ${answer.isCorrectAnswer}>
+=======
             `  <div class="AnswerImg">
                     <img class="" src=${answer.image} alt = ${answer.isCorrectAnswer}>
+>>>>>>> refs/remotes/origin/master
                     <p>${answer.text}</p>
                 </div>`
         })
         j+=1
     })
+<<<<<<< HEAD
+}
+let indice = 0
+function checkAnswer(element){
+    const parent = element.parentNode
+    if(!parent.classList.contains("clicked")){
+        parent.classList.add("clicked")
+        click(element)
+    }
+}
+
+function click(element){
+    const parent = element.parentNode
+    if(element.getElementsByTagName('img')[0].alt === "true"){
+        element.classList.add("right")
+        percent += 1
+        indice++
+        updateView()
+    }
+    else{
+        element.classList.add("wrong")
+        indice++
+        updateView()
+    }
+    isOver+=1
+    if(isOver === numberOfQuestions){
+        overQuizz(element)
+        updateView()
+    }
+    const arr = parent.querySelectorAll(".AnswerImg")
+
+    for (let i in arr){
+        if(arr[i].classList !== undefined){
+            if(!arr[i].classList.contains("right") || !arr[i].classList.contains("wrong")){
+                if (arr[i].getElementsByTagName('img')[0].alt === "true"){
+                    arr[i].classList.add("right")
+                }
+                else{
+                    arr[i].classList.add("wrong")
+                }
+            }
+        }
+    }
+}
+=======
 
 };
 
@@ -727,6 +784,59 @@ function CollapseBox() {
         this.classList.add("active");
       });
     }
+>>>>>>> refs/remotes/origin/master
+
+function overQuizz(element){
+    const content = document.querySelector(".PlayQuizzBox")
+    percent = Math.round((percent*100/numberOfQuestions))
+    const level = arrLevels[checkLevels()]
+    content.innerHTML += `<div class="FinishQuizzBox">
+        <div class="TitleFinishQuizzBox"><p>${percent}% de acerto: ${level.title}</p></div>
+        <div class="FinishAnswers">
+            <img class="FinishImg" src=${level.image} alt="">
+            <p class="FinishText" >${level.text}</p>
+        </div>
+        <div onclick="reloadPage()" class="Reboot-Quizz-Button">Reiniciar Quizz</div>
+        <p onclick="location.reload()" class="ButtonGoBackHome">Voltar para home</p>
+</div>`
+}
+
+
+function checkLevels(){
+    let min = 0
+    for (let i in arrLevels){
+        if (percent >= arrLevels[i].minValue){
+            min = i
+        }
+    }
+    return min
+}
+
+function reloadPage(){
+    window.scrollTo(0, 0)
+    percent = 0
+    isOver = 0
+    indice = 0
+    const url = `https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizzId}`
+    axios.get(url)
+        .then((response) => createThirdScreen(response.data))
+        .catch((e) => console.log(e))
+}
+
+function updateView(){
+    const lastQuestion = document.querySelectorAll(".QuizzBox")
+    if (indice < lastQuestion.length){
+        const show = lastQuestion[indice]
+        setTimeout(() => {
+            show.scrollIntoView()
+        },2000)
+    }
+    else if (isOver === numberOfQuestions) {
+        setTimeout(() => {
+            document.querySelector(".FinishQuizzBox").scrollIntoView()
+        }, 2000)
+    }
+}
 
 
 
