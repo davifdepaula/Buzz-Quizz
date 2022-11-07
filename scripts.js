@@ -16,6 +16,31 @@ let imageUrl;
 let numberOfQuestions;
 let numberOfLevels;
 
+let answer_texts = [];
+let image_texts = [];
+let isCorrectAnswer = [true, false, false, false];
+
+let quizz = {
+    id: 1,
+ 	title: "",
+ 	image: "",
+ 	questions: []};
+
+let question = {
+    title: "",
+ 	color: "",
+ 	answers: 
+        [
+ 		    
+        ]
+    };
+
+let answer = {
+    text : "",
+    image : "",
+    isCorrectAnswer: undefined
+}
+
 //início funcões genéricas
 
 function resetQuizz(){
@@ -115,12 +140,13 @@ function validateImageUrl(imageUrl) {
 
 function validateMultImageUrl(imageUrls){
     for (let i = 0; i < imageUrls.length; i++){
+        console.log(imageUrls[i].value);
         if (validateImageUrl(imageUrls[i].value) === false){
             return false;
         } else {
-            image_texts.push(imageUrls[i]);
-        }
-    }
+            image_texts.push(imageUrls[i].value);
+        };
+    };
     return true;
 }
 
@@ -236,7 +262,7 @@ function createQuestions_box(){
         `
             <div class="questions-box">
                 <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
-                <div class="content">
+                <div class="content content-question">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
@@ -307,15 +333,17 @@ function answerNotEmpty(answer){
 }
 
 function AllAnswersNotEmpty(answers){
+    
     for(let i = 0; i<answers.length; i++){
         console.log(answerNotEmpty(answers[i].value));
         if (answerNotEmpty(answers[i].value) === false){
             return false;
         } else {
-            answer_texts.push(answers[i]);
-        }
-    }
-    return true
+            console.log();
+            answer_texts.push(answers[i].value);
+        };
+    };
+    return true;
 }
 
 
@@ -342,27 +370,29 @@ function checkWrongAnswersQuantity(question){
 function validateContent(content){
     let content_question = content.querySelector(".question-text").value;
     if (validateQuestionLength(content_question) === false){
-        return false
+        return false;
     } else {
         question.title = content_question;
-    }
+    };
     
     let content_color = content.querySelector(".question-color").value;
     if (validateBackgroundColor(content_color) === false){
         return false;
     } else {
         question.color = content.color;
-    }
+    };
 
     let answers_text = content.querySelectorAll(".answer-txt");
     if (AllAnswersNotEmpty(answers_text) === false){
         return false;
-    }
+    };
 
     let img_url = content.querySelectorAll(".img-url");
     if (validateMultImageUrl(img_url) === false){
         return false;
-    }
+    };
+
+
     return true;
 }
 
@@ -402,6 +432,7 @@ function answersToQuestion(){
         question.answers.push(answer);
         lstQuestions.push(question);
     }
+    console.log(answer_texts);
     console.log(lstQuestions);
     return lstQuestions;
 }
@@ -630,10 +661,14 @@ function showthirdScreen(element){
 }
 
 function createThirdScreen(response){
+<<<<<<< HEAD
     numberOfQuestions = response.questions.length
     quizzId = response.id
     arrLevels = response.levels
+=======
+>>>>>>> refs/remotes/origin/master
     const content = document.querySelector(".PlayQuizzBox")
+    console.log(response)
     content.innerHTML = ""
     content.innerHTML += `<div class="thirdScreenCard">
     <div class="front"></div>
@@ -648,15 +683,22 @@ function createThirdScreen(response){
         </div>
         </div>`
         quizz.answers.map((answer) => {
+            console.log(answer)
             const target = content.querySelectorAll(".QuizzAnswers")[j]
             target.innerHTML +=
+<<<<<<< HEAD
             `  <div class="AnswerImg" onclick ="checkAnswer(this)">
                     <img src=${answer.image} alt = ${answer.isCorrectAnswer}>
+=======
+            `  <div class="AnswerImg">
+                    <img class="" src=${answer.image} alt = ${answer.isCorrectAnswer}>
+>>>>>>> refs/remotes/origin/master
                     <p>${answer.text}</p>
                 </div>`
         })
         j+=1
     })
+<<<<<<< HEAD
 }
 let indice = 0
 function checkAnswer(element){
@@ -700,6 +742,21 @@ function click(element){
         }
     }
 }
+=======
+
+};
+
+
+function CollapseBox() {
+
+    const element1 = document.getElementsByClassName("questions-box");
+
+    for (let i = 0; i < element1.length; i++) {
+      element1[i].addEventListener("click", function () {
+        this.classList.add("active");
+      });
+    }
+>>>>>>> refs/remotes/origin/master
 
 function overQuizz(element){
     const content = document.querySelector(".PlayQuizzBox")
@@ -753,4 +810,14 @@ function updateView(){
     }
 }
 
+
+
+    const element2 = document.getElementsByClassName("Ask-level-box");
+
+    for (let i = 0; i < element2.length; i++) {
+      element2[i].addEventListener("click", function () {
+        this.classList.add("active");
+      });
+    }
+  }
 
