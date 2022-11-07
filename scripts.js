@@ -680,9 +680,9 @@ function createThirdScreen(response){
         </div>
         </div>`
         quizz.answers.map((answer) => {
-            console.log(answer)
-            const target = content.querySelectorAll(".QuizzAnswers")[j]
-            target.innerHTML +=
+            const target = content.querySelectorAll(".QuizzAnswers")
+            const arr = [...target].sort()
+            arr.innerHTML +=
             `  <div class="AnswerImg" onclick ="checkAnswer(this)">
                     <img src=${answer.image} alt = ${answer.isCorrectAnswer}>
                     <p>${answer.text}</p>
