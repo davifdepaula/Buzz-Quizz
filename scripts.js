@@ -21,7 +21,6 @@ let image_texts = [];
 
 
 let quizz = {
-    id: 1,
  	title: "",
  	image: "",
  	questions: []};
@@ -86,6 +85,28 @@ function checkLocalStorage(){
 }
 
 checkLocalStorage()
+
+function CollapseBox() {
+
+    const element1 = document.getElementsByClassName("questions-box");
+
+    for (let i = 0; i < element1.length; i++) {
+      element1[i].addEventListener("click", function () {
+        this.classList.add("active");
+      });
+    }
+
+
+
+    const element2 = document.getElementsByClassName("Ask-level-box");
+
+    for (let i = 0; i < element2.length; i++) {
+      element2[i].addEventListener("click", function () {
+        this.classList.add("active");
+      });
+    }
+  }
+
 
 
 function aboveOrEqualMin(value, minimal){
@@ -689,12 +710,9 @@ function showthirdScreen(element){
 }
 
 function createThirdScreen(response){
-<<<<<<< HEAD
     numberOfQuestions = response.questions.length
     quizzId = response.id
     arrLevels = response.levels
-=======
->>>>>>> refs/remotes/origin/master
     const content = document.querySelector(".PlayQuizzBox")
     console.log(response)
     content.innerHTML = ""
@@ -714,19 +732,13 @@ function createThirdScreen(response){
             console.log(answer)
             const target = content.querySelectorAll(".QuizzAnswers")[j]
             target.innerHTML +=
-<<<<<<< HEAD
             `  <div class="AnswerImg" onclick ="checkAnswer(this)">
                     <img src=${answer.image} alt = ${answer.isCorrectAnswer}>
-=======
-            `  <div class="AnswerImg">
-                    <img class="" src=${answer.image} alt = ${answer.isCorrectAnswer}>
->>>>>>> refs/remotes/origin/master
                     <p>${answer.text}</p>
                 </div>`
         })
         j+=1
     })
-<<<<<<< HEAD
 }
 let indice = 0
 function checkAnswer(element){
@@ -770,21 +782,6 @@ function click(element){
         }
     }
 }
-=======
-
-};
-
-
-function CollapseBox() {
-
-    const element1 = document.getElementsByClassName("questions-box");
-
-    for (let i = 0; i < element1.length; i++) {
-      element1[i].addEventListener("click", function () {
-        this.classList.add("active");
-      });
-    }
->>>>>>> refs/remotes/origin/master
 
 function overQuizz(element){
     const content = document.querySelector(".PlayQuizzBox")
@@ -837,15 +834,3 @@ function updateView(){
         }, 2000)
     }
 }
-
-
-
-    const element2 = document.getElementsByClassName("Ask-level-box");
-
-    for (let i = 0; i < element2.length; i++) {
-      element2[i].addEventListener("click", function () {
-        this.classList.add("active");
-      });
-    }
-  }
-
