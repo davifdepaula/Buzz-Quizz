@@ -1,8 +1,9 @@
 //Para obter todos os quizzes, faça uma requisição GET para a imageUrl
 //const imageUrlListQuizz = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
-let quizzList = [], idUserPost = [],  percent = 0
-let isOver = 0
+const quizzList = []
+let idUserPost = [], arrLevels = []
+let isOver = 0, quizzId = 0, percent = 0
 
 //Para buscar um único quizz, faça uma requisição GET para a imageUrl
 /*"https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + "ID_DO_QUIZZ";*/
@@ -235,19 +236,11 @@ function createQuestions_box(){
         `
             <div class="questions-box">
                 <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
-<<<<<<< HEAD
                 <div class="content">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
                     <input placeholder="Resposta correta " type="text" class="answer-txt">
-=======
-                <div class="content content-question">
-                    <input placeholder="Texto da pergunta" type="text" class="question-text">
-                    <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
-                    <h4>Resposta correta</h4>
-                    <input placeholder="Resposta correta" type="text" class="answer-txt">
->>>>>>> refs/remotes/origin/master
                     <input placeholder="URL da imagem"type="text" class="img-url">
                     <h4>Respostas incorretas</h4>
                     <input placeholder="Resposta incorreta 1" type="text" class="answer-txt">
@@ -637,6 +630,9 @@ function showthirdScreen(element){
 }
 
 function createThirdScreen(response){
+    numberOfQuestions = response.questions.length
+    quizzId = response.id
+    arrLevels = response.levels
     const content = document.querySelector(".PlayQuizzBox")
     content.innerHTML = ""
     content.innerHTML += `<div class="thirdScreenCard">
@@ -652,50 +648,109 @@ function createThirdScreen(response){
         </div>
         </div>`
         quizz.answers.map((answer) => {
-            console.log(answer)
             const target = content.querySelectorAll(".QuizzAnswers")[j]
             target.innerHTML +=
-            `  <div class="AnswerImg">
-                    <img class="" src=${answer.image} alt = ${answer.isCorrectAnswer}>
+            `  <div class="AnswerImg" onclick ="checkAnswer(this)">
+                    <img src=${answer.image} alt = ${answer.isCorrectAnswer}>
                     <p>${answer.text}</p>
                 </div>`
         })
         j+=1
     })
-
+}
+let indice = 0
+function checkAnswer(element){
+    const parent = element.parentNode
+    if(!parent.classList.contains("clicked")){
+        parent.classList.add("clicked")
+        click(element)
+    }
 }
 
-
-    const element1 = document.getElementsByClassName("questions-box");
-  
-    for (let i = 0; i < element1.length; i++) {
-      element1[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-      });
-    }
-
-function click (element) {
+function click(element){
     const parent = element.parentNode
-    if (element.getElementsByTagName('img')[0].alt === "true"){
+    if(element.getElementsByTagName('img')[0].alt === "true"){
         element.classList.add("right")
-        percent+=1
+        percent += 1
+        indice++
+        updateView()
     }
-    else {
+    else{
         element.classList.add("wrong")
+        indice++
+        updateView()
     }
-    isOver += 1
-    console.log(isOver)
-    console.log(numberOfQuestions)
+    isOver+=1
+    if(isOver === numberOfQuestions){
+        overQuizz(element)
+        updateView()
+    }
     const arr = parent.querySelectorAll(".AnswerImg")
+
     for (let i in arr){
-        if (!arr[i].classList.contains("right") || !arr[i].classList.contains("right")){
-            if (arr[i].getElementsByTagName('img')[0].alt === "true"){
-                arr[i].classList.add("right")
-            }
-            else{
-                arr[i].classList.add("wrong") 
+        if(arr[i].classList !== undefined){
+            if(!arr[i].classList.contains("right") || !arr[i].classList.contains("wrong")){
+                if (arr[i].getElementsByTagName('img')[0].alt === "true"){
+                    arr[i].classList.add("right")
+                }
+                else{
+                    arr[i].classList.add("wrong")
+                }
             }
         }
     }
-  }
-  
+}
+
+function overQuizz(element){
+    const content = document.querySelector(".PlayQuizzBox")
+    percent = Math.round((percent*100/numberOfQuestions))
+    const level = arrLevels[checkLevels()]
+    content.innerHTML += `<div class="FinishQuizzBox">
+        <div class="TitleFinishQuizzBox"><p>${percent}% de acerto: ${level.title}</p></div>
+        <div class="FinishAnswers">
+            <img class="FinishImg" src=${level.image} alt="">
+            <p class="FinishText" >${level.text}</p>
+        </div>
+        <div onclick="reloadPage()" class="Reboot-Quizz-Button">Reiniciar Quizz</div>
+        <p onclick="location.reload()" class="ButtonGoBackHome">Voltar para home</p>
+</div>`
+}
+
+
+function checkLevels(){
+    let min = 0
+    for (let i in arrLevels){
+        if (percent >= arrLevels[i].minValue){
+            min = i
+        }
+    }
+    return min
+}
+
+function reloadPage(){
+    window.scrollTo(0, 0)
+    percent = 0
+    isOver = 0
+    indice = 0
+    const url = `https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizzId}`
+    axios.get(url)
+        .then((response) => createThirdScreen(response.data))
+        .catch((e) => console.log(e))
+}
+
+function updateView(){
+    const lastQuestion = document.querySelectorAll(".QuizzBox")
+    if (indice < lastQuestion.length){
+        const show = lastQuestion[indice]
+        setTimeout(() => {
+            show.scrollIntoView()
+        },2000)
+    }
+    else if (isOver === numberOfQuestions) {
+        setTimeout(() => {
+            document.querySelector(".FinishQuizzBox").scrollIntoView()
+        }, 2000)
+    }
+}
+
+
