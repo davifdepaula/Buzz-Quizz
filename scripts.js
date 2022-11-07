@@ -128,7 +128,7 @@ function hideScreens(){
     createQuestionsBox.classList.add("hidden");
 
     let secondScreen = document.querySelector(".create-questions-box");
-    secondScreen.classList.add("hidden");  
+    secondScreen.classList.add("hidden");    
     
     let thirdScreen = document.querySelector(".create-levels-box");
     thirdScreen.classList.add("hidden");
