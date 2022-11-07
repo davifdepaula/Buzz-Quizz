@@ -17,7 +17,7 @@ let numberOfLevels;
 
 let answer_texts = [];
 let image_texts = [];
-let isCorrectAnswer = [true, false, false, false];
+
 
 let quizz = {
     id: 1,
@@ -34,11 +34,7 @@ let question = {
         ]
     };
 
-let answer = {
-    text : "",
-    image : "",
-    isCorrectAnswer: undefined
-}
+
 
 //início funcões genéricas
 
@@ -139,7 +135,6 @@ function validateImageUrl(imageUrl) {
 
 function validateMultImageUrl(imageUrls){
     for (let i = 0; i < imageUrls.length; i++){
-        console.log(imageUrls[i].value);
         if (validateImageUrl(imageUrls[i].value) === false){
             return false;
         } else {
@@ -303,7 +298,6 @@ function createSecondScreen(){
 //valida tamanho da questão
 //entrada é uma string e saída é um booleano
 function validateQuestionLength(question){
-    console.log(question);
     return aboveOrEqualMin(question.length, 20);
 }
 
@@ -334,11 +328,9 @@ function answerNotEmpty(answer){
 function AllAnswersNotEmpty(answers){
     
     for(let i = 0; i<answers.length; i++){
-        console.log(answerNotEmpty(answers[i].value));
         if (answerNotEmpty(answers[i].value) === false){
             return false;
         } else {
-            console.log();
             answer_texts.push(answers[i].value);
         };
     };
@@ -366,6 +358,53 @@ function checkWrongAnswersQuantity(question){
     return (aboveOrEqualMin(quantity, 1));
 }
 
+/*
+function answersToQuestion(){
+    for (let i = 0; i<answer_texts.length; i++){
+        answer.text = answer_texts[i];
+        answer.image = image_texts[i];
+        answer.isCorrectAnswer = isCorrectAnswer[i];
+        question.answers.push(answer);
+    }
+}
+*/
+
+function answersToQuestion_aux(text, img, isCorrect){
+    let answer = {
+        text : text,
+        image : img,
+        isCorrectAnswer: isCorrect
+    }
+    return answer;
+}
+
+function answersToQuestion(answerLst, imageLst){
+    console.log(`comprimento array respostas a ser inserido na questão: ${answerLst.length}`);
+    console.log(`comprimento array imagens a ser inserido na questão ${imageLst.length}`);
+    let isCorrectAnswer = [true, false, false, false];
+    /*
+    let answer = {
+        text : "",
+        image : "",
+        isCorrectAnswer: undefined
+    }*/
+    let lista_repostas = []
+    for (let i = 0; i<answerLst.length; i++){
+/*        answer.text = answerLst[i].value;
+        answer.image = imageLst[i].value;
+        answer.isCorrectAnswer = isCorrectAnswer[i];*/
+        lista_repostas.push(answersToQuestion_aux(answerLst[i].value, imageLst[i].value, isCorrectAnswer[i]));   
+    }
+    console.log(`lista de respostas a ser inserida na questão ${lista_repostas}`);
+    question.answers = lista_repostas;
+    console.log(`lista de respostas da questão ${question.answers}`);
+    questionToQuizz();
+}
+
+function questionToQuizz(){
+    quizz.questions.push(question);
+}
+
 function validateContent(content){
     let content_question = content.querySelector(".question-text").value;
     if (validateQuestionLength(content_question) === false){
@@ -378,7 +417,7 @@ function validateContent(content){
     if (validateBackgroundColor(content_color) === false){
         return false;
     } else {
-        question.color = content.color;
+        question.color = content_color;
     };
 
     let answers_text = content.querySelectorAll(".answer-txt");
@@ -391,6 +430,9 @@ function validateContent(content){
         return false;
     };
 
+    console.log(`comprimento array respostas a ser inserido na questão ${answers_text.length}`);
+    answersToQuestion(answers_text, img_url);
+    
 
     return true;
 }
@@ -407,33 +449,12 @@ function validateContents(contents){
 function validateQuizzQuestions(){
     let isOk = false;
     let contents = document.querySelectorAll(".content-question");
+    console.log(`content-question ${contents.length}`);
     isOk = validateContents(contents);
     if (isOk){
-        console.log("info validada!");
-        questionsToQuizz(answersToQuestion());
+        console.log("info das questoes validada!");
     } 
-    
     return isOk; 
-}
-
-function questionsToQuizz(questionsLst){
-    for (let i = 0; i<questionsLst.length; i++){
-        quizz.questions.push(questionsLst[i]);
-    }
-}
-
-function answersToQuestion(){
-    let lstQuestions = [];
-    for (let i = 0; i<answer_texts.length; i++){
-        answer.text = answer_texts[i];
-        answer.image = image_texts[i];
-        answer.isCorrectAnswer = isCorrectAnswer[i];
-        question.answers.push(answer);
-        lstQuestions.push(question);
-    }
-    console.log(answer_texts);
-    console.log(lstQuestions);
-    return lstQuestions;
 }
 
 function goToThirdScreen(){
@@ -517,7 +538,7 @@ function validateQuizzLevels(){
     let contents = document.querySelectorAll(".content-level");
     isOk = validateLevels(contents);
     if (isOk){
-        console.log("info validada!");
+        console.log("info dos niveis validada!");
     } 
     
     return isOk; 
@@ -526,6 +547,13 @@ function validateQuizzLevels(){
 function goToFinishQuizzScreen(){
     let isOk = validateQuizzLevels();
     console.log(isOk);
+    if (isOk === true){
+        let thirdScreen = document.querySelector(".create-levels-box");
+        thirdScreen.classList.add("hidden");
+
+        let Finished_quizz_box_screen = document.querySelector(".Finished-quizz-box");
+        Finished_quizz_box_screen.classList.remove("hidden");
+    }
 }
 
 function createLevelsQuizzScreen(){
