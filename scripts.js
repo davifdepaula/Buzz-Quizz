@@ -732,7 +732,6 @@ function createThirdScreen(response){
     quizzId = response.id
     arrLevels = response.levels
     const content = document.querySelector(".PlayQuizzBox")
-    console.log(response)
     content.innerHTML = ""
     content.innerHTML += `<div class="thirdScreenCard">
     <div class="front"></div>
@@ -740,16 +739,21 @@ function createThirdScreen(response){
     <p class = "TitlePlayQuizz">${response.title}</p>
 </div>`
     let j = 0
+
     response.questions.map((quizz) => {
         content.innerHTML += `<div class="QuizzBox">
         <div class="TitleQuizzBox"><p>${quizz.title}</p></div>
         <div class="QuizzAnswers">
         </div>
         </div>`
-        quizz.answers.map((answer) => {
-            const target = content.querySelectorAll(".QuizzAnswers")
-            const arr = [...target].sort()
-            arr[j].innerHTML +=
+        console.log(quizz.answers)
+        let arr = quizz.answers
+        arr.sort(function (a, b) {return Math.random() - 0.5})
+
+        console.log(arr)
+        arr.map((answer) => {
+            const target = content.querySelectorAll(".QuizzAnswers")[j]
+            target.innerHTML +=
             `  <div class="AnswerImg" onclick ="checkAnswer(this)">
                     <img src=${answer.image} alt = ${answer.isCorrectAnswer}>
                     <p>${answer.text}</p>
