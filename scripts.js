@@ -781,10 +781,6 @@ function click(element){
         updateView()
     }
     isOver+=1
-    if(isOver === numberOfQuestions){
-        overQuizz(element)
-        updateView()
-    }
     const arr = parent.querySelectorAll(".AnswerImg")
 
     for (let i in arr){
@@ -798,6 +794,10 @@ function click(element){
                 }
             }
         }
+    }
+    if(isOver === numberOfQuestions){
+        overQuizz(element)
+        updateView()
     }
 }
 
