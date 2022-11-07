@@ -23,7 +23,8 @@ let image_texts = [];
 let quizz = {
  	title: "",
  	image: "",
- 	questions: []};
+ 	questions: [],
+    levels: []};
 
 let question = {
     title: "",
@@ -520,29 +521,45 @@ function createLevelsBox(){
 }
 
 function validateLevel(level){
+    let quizzLevel = {
+        title: "",
+        image: "",
+        text: "",
+        minValue: 0
+    }
     let level_question = level.querySelector(".level-text").value;
     if (validateLevelTitleLength(level_question) === false){
+        console.log("level-question");
         return false
-    } 
+    } else {
+        quizzLevel.title = level_question;
+    }
     
     let level_accuracy = level.querySelector(".level-accuracy").value;
     if (validateAllAccuracy(level_accuracy) === false){
+        console.log("level-acc");
         return false;
+    } else {
+        quizzLevel.minValue = level_accuracy;
     }
 
     let level_img = level.querySelector(".level-img").value;
     if (validateImageUrl(level_img) === false){
-        console.log(false);
+        console.log("level-img");
         return false;
+    } else {
+        quizzLevel.image = level_img;
     }
 
     let level_description = level.querySelector(".level-description").value;
     if (validateLevelDescription(level_description) === false){
-        console.log(false);
+        console.log("level-desc");
         return false;
+    } else {
+        quizzLevel.text = level_description;
     }
-
-    
+    quizz.levels.push(quizzLevel);
+    console.log(quizz);
     return true;
 }
 
@@ -558,6 +575,7 @@ function validateLevels(levels){
 function validateQuizzLevels(){
     let isOk = false;
     let contents = document.querySelectorAll(".content-level");
+    console.log(`content-level ${contents.length}`);
     isOk = validateLevels(contents);
     if (isOk){
         console.log("info dos niveis validada!");
