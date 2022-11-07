@@ -139,12 +139,13 @@ function validateImageUrl(imageUrl) {
 
 function validateMultImageUrl(imageUrls){
     for (let i = 0; i < imageUrls.length; i++){
+        console.log(imageUrls[i].value);
         if (validateImageUrl(imageUrls[i].value) === false){
             return false;
         } else {
-            image_texts.push(imageUrls[i]);
-        }
-    }
+            image_texts.push(imageUrls[i].value);
+        };
+    };
     return true;
 }
 
@@ -260,7 +261,7 @@ function createQuestions_box(){
         `
             <div class="questions-box">
                 <h3 class = "collapse">Pergunta ${numeroDaPergunta}</h3>
-                <div class="content">
+                <div class="content content-question">
                     <input placeholder="Texto da pergunta" type="text" class="question-text">
                     <input placeholder="Cor de fundo da pergunta"type="text" class="question-color">
                     <h4>Resposta correta</h4>
@@ -331,15 +332,17 @@ function answerNotEmpty(answer){
 }
 
 function AllAnswersNotEmpty(answers){
+    
     for(let i = 0; i<answers.length; i++){
         console.log(answerNotEmpty(answers[i].value));
         if (answerNotEmpty(answers[i].value) === false){
             return false;
         } else {
-            answer_texts.push(answers[i]);
-        }
-    }
-    return true
+            console.log();
+            answer_texts.push(answers[i].value);
+        };
+    };
+    return true;
 }
 
 
@@ -366,27 +369,29 @@ function checkWrongAnswersQuantity(question){
 function validateContent(content){
     let content_question = content.querySelector(".question-text").value;
     if (validateQuestionLength(content_question) === false){
-        return false
+        return false;
     } else {
         question.title = content_question;
-    }
+    };
     
     let content_color = content.querySelector(".question-color").value;
     if (validateBackgroundColor(content_color) === false){
         return false;
     } else {
         question.color = content.color;
-    }
+    };
 
     let answers_text = content.querySelectorAll(".answer-txt");
     if (AllAnswersNotEmpty(answers_text) === false){
         return false;
-    }
+    };
 
     let img_url = content.querySelectorAll(".img-url");
     if (validateMultImageUrl(img_url) === false){
         return false;
-    }
+    };
+
+
     return true;
 }
 
@@ -426,6 +431,7 @@ function answersToQuestion(){
         question.answers.push(answer);
         lstQuestions.push(question);
     }
+    console.log(answer_texts);
     console.log(lstQuestions);
     return lstQuestions;
 }
